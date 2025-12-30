@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "🚀 发布博客 (Deploy)",  // 任务的名字
+            "type": "shell",
+            "command": "./deploy.sh",       // 运行那个脚本
+            "presentation": {
+                "reveal": "always",         // 运行时自动打开终端给你看
+                "panel": "new"
+            },
+            "problemMatcher": []
+        }
+    ]
+}
