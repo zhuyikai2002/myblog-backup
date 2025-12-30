@@ -2,14 +2,18 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "🚀 发布博客 (Deploy)",  // 任务的名字
+            "label": "🚀 发布博客 (Deploy)",
             "type": "shell",
-            "command": "./deploy.sh",       // 运行那个脚本
+            "command": "./deploy.sh",
             "presentation": {
-                "reveal": "always",         // 运行时自动打开终端给你看
+                "reveal": "always",
                 "panel": "new"
             },
-            "problemMatcher": []
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }
