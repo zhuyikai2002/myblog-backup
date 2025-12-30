@@ -53,10 +53,13 @@ social:
 # Image Settings
 # --------------------------------------
 
-favicon: /img/favicon.png
+favicon:
+  img: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/terminal.png
 
 avatar:
-  img: /img/butterfly-icon.png
+  # 下面这个是 Linux 企鹅图标的在线地址，你也可以换成别的
+  img: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/linux.png
+  # 关掉那个转圈圈的特效，太花哨了
   effect: false
 
 # Disable all banner images
@@ -256,16 +259,14 @@ noticeOutdate:
 # Footer Settings
 # --------------------------------------
 footer:
-  nav:
   owner:
     enable: true
     since: 2025
-  # Copyright of theme and framework
+  # 把下面这个 enable 改成 false，彻底隐藏 "Powered by Hexo" 那些废话
   copyright:
-    enable: true
-    version: true
-  custom_text:
-
+    enable: false 
+  # 在这里写你想要的极客文字
+  custom_text: '© 2025 Rik | <span style="color:#00ff41">System Online.</span>'
 # --------------------------------------
 # Aside Settings
 # --------------------------------------
@@ -804,7 +805,7 @@ preloader:
 enter_transitions: true
 
 # Default display mode - light (default) / dark
-display_mode: light
+display_mode: dark
 
 # Configuration for beautifying the content of the article
 beautify:
@@ -1053,9 +1054,58 @@ css_prefix: true
 # Insert the code to head (before '</head>' tag) and the bottom (before '</body>' tag)
 inject:
   head:
-    # - <link rel="stylesheet" href="/xxx.css">
+    - |
+      <style>
+        /* 全局背景：深黑 + 网格纹理 */
+        body {
+            background-color: #0d1117 !important;
+            background-image: radial-gradient(circle at 50% 50%, #1f2428 1px, transparent 1px) !important;
+            background-size: 30px 30px !important;
+        }
+
+        /* 顶部导航栏：透明黑 + 模糊 */
+        #page-header #nav {
+            background-color: rgba(13, 17, 23, 0.9) !important;
+            backdrop-filter: blur(5px);
+        }
+
+        /* 文章卡片：去掉白色，改为半透明黑 */
+        #aside-content .card-widget, 
+        .layout > .recent-posts > .recent-post-item, 
+        .layout > .post-content, 
+        #page, 
+        #archive, 
+        #tag, 
+        #category {
+            background-color: rgba(22, 27, 34, 0.8) !important;
+            border: 1px solid #30363d;
+            box-shadow: none !important;
+            color: #c9d1d9 !important;
+        }
+
+        /* 所有标题：强制变为极客绿 */
+        h1, h2, h3, h4, h5, h6, #site-title, #site-subtitle, .article-title {
+            color: #00ff41 !important;
+            font-family: 'Courier New', monospace !important;
+        }
+
+        /* 链接悬停颜色 */
+        a:hover {
+            color: #00ff41 !important;
+        }
+
+        /* 隐藏顶部巨大的背景图，只留个标题栏 */
+        #page-header.full_page {
+            height: 200px !important;
+            background: #000 !important;
+        }
+        
+        /* 隐藏顶部背景图上的文字 */
+        #site-info {
+            display: none; 
+        }
+      </style>
   bottom:
-    # - <script src="xxxx"></script>
 
 # CDN Settings
 # Don't modify the following settings unless you know how they work
