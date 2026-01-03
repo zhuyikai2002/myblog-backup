@@ -38,8 +38,9 @@ categories: 嵌入式折腾日记
 #define RCC_APB2ENR  (*((volatile uint32_t *)0x40021018))
 #define GPIOC_CRH    (*((volatile uint32_t *)0x40011004))
 #define GPIOC_ODR    (*((volatile uint32_t *)0x4001100C))
+```
 
-```## 03. 从“点亮”到“把玩”：修改频率与呼吸灯
+## 03. 从“点亮”到“把玩”：修改频率与呼吸灯
 
 第一次点亮后，我并没有满足。看着那盏灯傻傻地一秒一闪，我突然想试试：**我能不能控制它的节奏？**
 
