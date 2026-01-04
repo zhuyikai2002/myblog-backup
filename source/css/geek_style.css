@@ -1,6 +1,53 @@
-/* ...之前的内容... */
+/* source/css/geek_style.css */
 
-/* 极客返回按钮样式 (从JS里搬过来的) */
+/* =========================================
+   1. 暴力修复全局深色背景 (针对 Butterfly 主题结构)
+   ========================================= */
+
+/* 覆盖 body 和主题核心背景层 */
+body,
+#web_bg,
+#page-header,
+#footer,
+#body-wrap {
+    background-color: #0d1117 !important;
+    background-image: radial-gradient(circle at 50% 50%, #1f2428 1px, transparent 1px) !important;
+    background-size: 30px 30px !important;
+    background-attachment: fixed !important; /* 让背景固定，不随滚动条走 */
+}
+
+/* 覆盖文章卡片、侧边栏卡片的白色背景 */
+#aside-content .card-widget,
+.layout > .recent-posts > .recent-post-item,
+.layout_post > #post,
+.layout_page > #page,
+.read-mode .layout_post > #post { /* 适配阅读模式 */
+    background: rgba(22, 27, 34, 0.9) !important; /* 90%不透明度 */
+    backdrop-filter: blur(5px);
+    border: 1px solid #30363d;
+    box-shadow: none !important;
+    color: #c9d1d9 !important; /* 强制文字颜色变灰白 */
+}
+
+/* 强制文字颜色，防止黑底黑字 */
+h1, h2, h3, h4, h5, h6,
+.article-title,
+.post-content p,
+.post-content li {
+    color: #eee !important;
+}
+
+/* 极客绿标题 */
+h1, h2, h3, .article-title {
+    color: #00ff41 !important;
+    font-family: 'Consolas', 'Courier New', monospace !important;
+    text-shadow: 0 0 5px rgba(0, 255, 65, 0.3);
+}
+
+/* =========================================
+   2. 按钮样式与“首页隐藏”逻辑
+   ========================================= */
+
 .geek-home-btn-container {
     margin: 20px 0;
     text-align: left;
@@ -10,7 +57,7 @@
     display: inline-block;
     padding: 8px 16px;
     background-color: #000;
-    color: #00ff00; /* 默认黑底绿字 */
+    color: #00ff00;
     border: 1px solid #00ff00;
     font-family: 'Consolas', monospace;
     text-decoration: none;
@@ -20,10 +67,17 @@
     transition: all 0.3s ease;
 }
 
-/* 鼠标悬停效果 */
 .geek-home-btn:hover {
-    background-color: #00ff00; /* 变绿底 */
-    color: #000;              /* 变黑字 */
+    background-color: #00ff00;
+    color: #000;
     box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
     cursor: pointer;
+}
+
+/* 🔴 关键修复：在首页摘要、归档页里隐藏按钮 */
+/* .recent-post-item 是首页文章卡片的类名 */
+.recent-post-item .geek-home-btn-container,
+.archive .geek-home-btn-container,
+.category .geek-home-btn-container {
+    display: none !important;
 }
