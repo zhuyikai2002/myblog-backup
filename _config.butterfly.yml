@@ -1061,6 +1061,9 @@ inject:
   bottom:
     # 底部如果有其他脚本保留，没有就留空
 
+# Custom CSS
+custom_css: /blog/css/geek_style.css
+
 # CDN Settings
 # Don't modify the following settings unless you know how they work
 CDN:
