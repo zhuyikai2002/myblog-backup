@@ -3,6 +3,7 @@ title: 硬核跨年：在 Linux 上配合 AI，我点亮了 STM32 的第一盏�
 date: 2026-01-01 11:30:00
 tags: [STM32, Linux, VSCode, EIDE, 嵌入式]
 categories: 嵌入式折腾日记
+description: 当别人在倒数跨年的时候，我在跟编译器 Battle。在 Linux 环境下使用 VS Code + EIDE，配合 AI 辅助，成功点亮了 STM32 的第一盏 LED 灯，体验了纯寄存器操作的魅力，并实现了呼吸灯效果。
 ---
 
 # 硬核跨年：当别人在倒数，我在跟编译器 Battle

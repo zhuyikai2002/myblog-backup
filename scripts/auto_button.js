@@ -2,11 +2,10 @@
 
 hexo.extend.filter.register('before_post_render', function(data){
   
-  // 这里的 HTML 变得非常短，不容易触发 Markdown 的代码块 bug
-  // 我们保留了你喜欢的 < cd /home >
+  // 首页链接按钮（不显示文字，仅保留功能）
   const homeBtn = `
 <div class="geek-home-btn-container">
-  <a href="/" class="geek-home-btn">&lt; cd /home &gt;</a>
+  <a href="/" class="geek-home-btn" title="返回首页"></a>
 </div>
 `;
 

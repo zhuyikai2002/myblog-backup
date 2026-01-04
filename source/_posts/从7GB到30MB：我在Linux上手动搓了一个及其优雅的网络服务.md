@@ -3,6 +3,7 @@ title: 从 7GB 到 30MB：我在 Linux 上手动搓了一个极其优雅的网�
 date: 2026-01-02 14:30:00
 tags: [Linux, Mihomo, Systemd, 优化, 随笔]
 categories: 嵌入式折腾日记
+description: 面对占用 7GB 内存的 Clash Verge，我转身拥抱"无头模式"。手动配置 Systemd + Mihomo + Web UI，将内存占用从 7GB 压缩到 30MB，体验了 Linux 命令行的优雅。
 ---
 
 # 别了，内存黑洞
