@@ -1,19 +1,24 @@
 #!/bin/bash
 set -e
 
+# 配置变量（便于修改）
+REMOTE_HOST="myvps"
+REMOTE_PATH="/var/www/html/blog/"
+GIT_REPO_URL="https://github.com/zhuyikai2002/myblog-backup.git"  # 如果需要
+
 echo "🚀 [1/3] 开始本地生产 (Hexo Generate)..."
 hexo clean
 hexo g
 
 echo "🚚 [2/3] 发送成品网页到 VPS (SCP Upload)..."
-# ⚠️ 注意：目标路径后面加了 blog/
-# 确保你已经在 VPS 上执行过 mkdir -p /var/www/html/blog
-scp -r public/* myvps:/var/www/html/blog/
+# 使用 rsync 替代 scp，更高效，支持增量传输和进度显示
+# -a: 归档模式，-v: 详细，-z: 压缩，--delete: 删除远程多余文件，--progress: 显示进度
+rsync -avz --delete --progress public/ ${REMOTE_HOST}:${REMOTE_PATH}
 
 echo "💾 [3/3] 备份源码到 GitHub (Git Push)..."
-git add .
-# 这里的提交信息我保留了你的自动化时间戳
-git commit -m "Site update: $(date '+%Y-%m-%d %H:%M:%S')"
+# 只添加 source/ 和配置文件，避免添加 public/ 或 node_modules/
+git add source/ _config.yml _config.butterfly.yml themes/ scripts/ deploy.sh
+git commit -m "Site update: $(date '+%Y-%m-%d %H:%M:%S')" || echo "没有新更改，跳过提交"
 git push
 
 echo "🎉 搞定！网站已更新，源码已备份！"

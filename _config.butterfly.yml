@@ -1057,7 +1057,7 @@ css_prefix: true
 inject:
   head:
     # 引入我们刚才创建的自定义 CSS 文件
-    - <link rel="stylesheet" href="/css/geek_style.css">
+    - <link rel="stylesheet" href="/blog/css/geek_style.css">
   bottom:
     # 底部如果有其他脚本保留，没有就留空
 
