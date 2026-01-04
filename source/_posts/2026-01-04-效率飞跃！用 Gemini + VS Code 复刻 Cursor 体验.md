@@ -1,8 +1,9 @@
 ---
-title: 效率飞跃！用 Gemini + VS Code 复刻 Cursor 体验
+title: 📅 2026.01.04 折腾日记：效率飞跃！用 Gemini + VS Code 复刻 Cursor 体验
 date: 2026-01-04 22:00:00
 tags: [Cursor, VSCode, Gemini, Continue, AI, 效率]
 categories: [嵌入式折腾日记]
+description: 下午一点，在老哥的建议下尝试了 Cursor，被其“全自动”修复 CSS 的能力震撼。为了解决 Pro 版昂贵的问题，探索出了 VS Code + Continue + Gemini 的免费“平替”方案。
 ---
 
 > **摘要**：下午一点，在老哥的建议下尝试了 Cursor，被其“全自动”修复 CSS 的能力震撼。为了解决 Pro 版昂贵的问题，探索出了 **VS Code + Continue 插件 + Gemini API** 的免费“平替”方案。并在效率提升中反思了 AI 时代程序员的核心竞争力。
