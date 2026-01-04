@@ -1,0 +1,48 @@
+name: Deploy Hexo to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # 触发分支，假设你的主分支是 main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          submodules: true  # 如果有子模块
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'  # 使用 Node.js 18
+
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm ci  # 使用 ci 确保依赖一致
+
+      - name: Install Hexo CLI
+        run: npm install -g hexo-cli
+
+      - name: Generate static files
+        run: |
+          hexo clean
+          hexo generate
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public  # Hexo 生成的静态文件目录
+          cname: qzkj.ltd  # 如果有自定义域名
