@@ -107,9 +107,11 @@ clean_css:
 
 # Uglify JS
 uglify:
-  enable: true
-  exclude:
-    - '*.min.js'
+  mangle: true
+  compress:
+    drop_console: true
+  output:
+    comments: false
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
