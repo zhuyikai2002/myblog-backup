@@ -99,6 +99,18 @@ ignore:
 ## Themes: https://hexo.io/themes/
 theme: butterfly
 
+# Clean CSS
+clean_css:
+  enable: true
+  exclude:
+    - '*.min.css'
+
+# Uglify JS
+uglify:
+  enable: true
+  exclude:
+    - '*.min.js'
+
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
