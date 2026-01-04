@@ -387,7 +387,7 @@ darkmode:
   # autoChangeMode: 1  Following System Settings, if the system doesn't support dark mode, it will switch dark mode between 6 pm to 6 am
   # autoChangeMode: 2  Switch dark mode between 6 pm to 6 am
   # autoChangeMode: false
-  autoChangeMode: 1
+  autoChangeMode: false
   # Set the light mode time. The value is between 0 and 24. If not set, the default value is 6 and 18
   start:
   end:
@@ -1058,8 +1058,11 @@ inject:
   head:
     # 引入我们刚才创建的自定义 CSS 文件
     - <link rel="stylesheet" href="/blog/css/geek_style.css">
+    # 强制深色模式脚本（在页面加载前执行）
+    - <script>(function(){document.documentElement.setAttribute('data-theme','dark');if(window.btf&&window.btf.activateDarkMode){window.btf.activateDarkMode();}if(typeof localStorage!=='undefined'){try{const theme=localStorage.getItem('theme');if(theme){const parsed=JSON.parse(theme);if(parsed.value!=='dark'){localStorage.setItem('theme',JSON.stringify({value:'dark',expiry:Date.now()+2*86400000}));}}else{localStorage.setItem('theme',JSON.stringify({value:'dark',expiry:Date.now()+2*86400000}));}}catch(e){}}})();</script>
   bottom:
-    # 底部如果有其他脚本保留，没有就留空
+    # 强制深色模式（确保在主题切换脚本之后执行）
+    - <script>(function(){if(document.documentElement.getAttribute('data-theme')!=='dark'){document.documentElement.setAttribute('data-theme','dark');}if(window.btf&&window.btf.activateDarkMode){window.btf.activateDarkMode();}})();</script>
 
 # Custom CSS
 custom_css: /blog/css/geek_style.css
