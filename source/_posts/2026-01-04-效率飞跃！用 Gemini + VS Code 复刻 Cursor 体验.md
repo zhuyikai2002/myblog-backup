@@ -1,5 +1,5 @@
 ---
-title: 折腾日记：效率飞跃！用 Gemini + VS Code 复刻 Cursor 体验
+title: 效率飞跃！用 Gemini + VS Code 复刻 Cursor 体验
 date: 2026-01-04 22:00:00
 tags: [Cursor, VSCode, Gemini, Continue, AI, 效率]
 categories: [嵌入式折腾日记]
