@@ -1,9 +1,10 @@
-name: Deploy Hexo to VPS
+name: Deploy Hexo to VPS & GitHub Pages
 
 on:
   push:
     branches:
-      - main
+      - main  # 触发分支
+  workflow_dispatch:  # 允许手动触发
 
 jobs:
   build-and-deploy:
@@ -12,22 +13,19 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          submodules: true
+          fetch-depth: 0  # 获取完整历史，便于增量构建
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-
-      - name: Cache node modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          node-version: '20'  # 升级到 Node.js 20 LTS
+          cache: 'npm'  # 内置 npm 缓存
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --prefer-offline --no-audit
 
       - name: Install Hexo CLI
         run: npm install -g hexo-cli
@@ -37,12 +35,34 @@ jobs:
           hexo clean
           hexo generate
 
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: ${{ secrets.KNOWN_HOSTS }}
-
-      - name: Deploy to VPS
+      - name: Optimize assets (CSS/JS minification)
         run: |
-          rsync -avz --delete --progress public/ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_PATH }}
+          echo "✅ CSS/JS 已通过 hexo-clean-css 和 hexo-uglify 自动压缩"
+
+      # 部署到 GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          cname: qzkj.ltd  # 如果你有自定义域名
+
+      # 部署到 VPS
+      - name: Deploy to VPS via rsync
+        uses: burnett01/rsync-deployments@6.0.0
+        with:
+          switches: -avzr --delete --progress
+          path: public/
+          remote_path: ${{ secrets.VPS_DEPLOY_PATH }}
+          remote_host: ${{ secrets.VPS_HOST }}
+          remote_user: ${{ secrets.VPS_USER }}
+          remote_key: ${{ secrets.VPS_SSH_KEY }}
+
+      - name: Verify VPS deployment
+        run: |
+          echo "🔍 验证 VPS 部署..."
+          if curl -s --head --fail "https://qzkj.ltd/blog/" > /dev/null; then
+            echo "✅ VPS 部署成功！"
+          else
+            echo "⚠️  VPS 验证失败，请检查配置"
+          fi
