@@ -1,50 +1,29 @@
-/* source/css/geek_style.css */
+/* ...之前的内容... */
 
-/* 全局背景：深黑 + 网格纹理 */
-body {
-    background-color: #0d1117 !important;
-    background-image: radial-gradient(circle at 50% 50%, #1f2428 1px, transparent 1px) !important;
-    background-size: 30px 30px !important;
+/* 极客返回按钮样式 (从JS里搬过来的) */
+.geek-home-btn-container {
+    margin: 20px 0;
+    text-align: left;
 }
 
-/* 顶部导航栏：透明黑 + 模糊 */
-#page-header #nav {
-    background-color: rgba(13, 17, 23, 0.9) !important;
-    backdrop-filter: blur(5px);
+.geek-home-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #000;
+    color: #00ff00; /* 默认黑底绿字 */
+    border: 1px solid #00ff00;
+    font-family: 'Consolas', monospace;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    box-shadow: 0 0 8px rgba(0, 255, 0, 0.4);
+    transition: all 0.3s ease;
 }
 
-/* 文章卡片：去掉白色，改为半透明黑 */
-#aside-content .card-widget, 
-.layout > .recent-posts > .recent-post-item, 
-.layout > .post-content, 
-#page, 
-#archive, 
-#tag, 
-#category {
-    background-color: rgba(22, 27, 34, 0.8) !important;
-    border: 1px solid #30363d;
-    box-shadow: none !important;
-    color: #c9d1d9 !important;
-}
-
-/* 所有标题：强制变为极客绿 */
-h1, h2, h3, h4, h5, h6, #site-title, #site-subtitle, .article-title {
-    color: #00ff41 !important;
-    font-family: 'Courier New', monospace !important;
-}
-
-/* 链接悬停颜色 */
-a:hover {
-    color: #00ff41 !important;
-}
-
-/* 隐藏顶部巨大的背景图，只留个标题栏 */
-#page-header.full_page {
-    height: 200px !important;
-    background: #000 !important;
-}
-
-/* 隐藏顶部背景图上的文字 */
-#site-info {
-    display: none; 
+/* 鼠标悬停效果 */
+.geek-home-btn:hover {
+    background-color: #00ff00; /* 变绿底 */
+    color: #000;              /* 变黑字 */
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
+    cursor: pointer;
 }
