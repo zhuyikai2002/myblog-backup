@@ -1,322 +1,51 @@
-/* source/css/geek_style.css */
-/* 极客风格深色模式增强 - 与Butterfly主题完美集成 */
-
-/* =========================================
-   1. 深色模式全局样式（仅在data-theme='dark'时生效）
-   ========================================= */
-
-[data-theme='dark'] {
-  /* 覆盖核心背景层 */
-  --global-bg: #0d1117;
-  --card-bg: rgba(22, 27, 34, 0.9);
-  --sidebar-bg: #0d1117;
-  --font-color: #c9d1d9;
+/* 1. 暴力修复全局深色背景 */
+body, #web_bg, #page-header, #footer, #body-wrap {
+    background-color: #0d1117 !important;
+    background-image: radial-gradient(circle at 50% 50%, #1f2428 1px, transparent 1px) !important;
+    background-size: 30px 30px !important;
+    background-attachment: fixed !important;
 }
 
-[data-theme='dark'] body,
-[data-theme='dark'] #web_bg,
-[data-theme='dark'] #page-header,
-[data-theme='dark'] #footer,
-[data-theme='dark'] #body-wrap,
-[data-theme='dark'] html {
-  background-color: #0d1117 !important;
-  background-image: radial-gradient(circle at 50% 50%, #1f2428 1px, transparent 1px) !important;
-  background-size: 30px 30px !important;
-  background-attachment: fixed !important;
-  color: #c9d1d9 !important;
+/* 2. 修复文章卡片背景 */
+#aside-content .card-widget, .recent-post-item, .layout_post > #post, .layout_page > #page {
+    background: rgba(22, 27, 34, 0.9) !important;
+    backdrop-filter: blur(5px);
+    border: 1px solid #30363d;
+    color: #c9d1d9 !important;
 }
 
-/* 覆盖文章卡片、侧边栏卡片 */
-[data-theme='dark'] #aside-content .card-widget,
-[data-theme='dark'] .layout > .recent-posts > .recent-post-item,
-[data-theme='dark'] .layout_post > #post,
-[data-theme='dark'] .layout_page > #page,
-[data-theme='dark'] .recent-post-item,
-[data-theme='dark'] .card-widget {
-  background: rgba(22, 27, 34, 0.9) !important;
-  backdrop-filter: blur(5px);
-  border: 1px solid #30363d !important;
-  box-shadow: none !important;
-  color: #c9d1d9 !important;
+/* 3. 修复文字颜色 */
+h1, h2, h3, .article-title {
+    color: #00ff41 !important;
+    font-family: 'Consolas', monospace !important;
 }
 
-/* 导航栏深色模式 */
-[data-theme='dark'] #nav,
-[data-theme='dark'] #nav .nav-site-title,
-[data-theme='dark'] #nav .nav-site-title:hover {
-  background: rgba(22, 27, 34, 0.95) !important;
-  color: #c9d1d9 !important;
-  backdrop-filter: blur(10px);
-}
-
-[data-theme='dark'] #nav .menus_item a,
-[data-theme='dark'] #nav .menus_item .site-page {
-  color: #c9d1d9 !important;
-}
-
-[data-theme='dark'] #nav .menus_item a:hover,
-[data-theme='dark'] #nav .menus_item .site-page:hover {
-  color: #00ff41 !important;
-}
-
-/* 文章内容区域 */
-[data-theme='dark'] .post-content,
-[data-theme='dark'] .article-content,
-[data-theme='dark'] .post-content p,
-[data-theme='dark'] .post-content li,
-[data-theme='dark'] .post-content ul,
-[data-theme='dark'] .post-content ol,
-[data-theme='dark'] .post-content blockquote,
-[data-theme='dark'] .article-entry {
-  color: #c9d1d9 !important;
-}
-
-/* 标题样式 - 极客绿 */
-[data-theme='dark'] h1,
-[data-theme='dark'] h2,
-[data-theme='dark'] h3,
-[data-theme='dark'] h4,
-[data-theme='dark'] h5,
-[data-theme='dark'] h6,
-[data-theme='dark'] .article-title,
-[data-theme='dark'] .post-title {
-  color: #00ff41 !important;
-  font-family: 'Consolas', 'Courier New', monospace !important;
-  text-shadow: 0 0 5px rgba(0, 255, 65, 0.3);
-}
-
-/* 链接样式 */
-[data-theme='dark'] a,
-[data-theme='dark'] .post-content a,
-[data-theme='dark'] .article-entry a {
-  color: #58a6ff !important;
-  text-decoration: none;
-}
-
-[data-theme='dark'] a:hover,
-[data-theme='dark'] .post-content a:hover,
-[data-theme='dark'] .article-entry a:hover {
-  color: #79c0ff !important;
-  text-decoration: underline;
-}
-
-/* 代码块样式 */
-[data-theme='dark'] code,
-[data-theme='dark'] pre,
-[data-theme='dark'] figure.highlight,
-[data-theme='dark'] .highlight,
-[data-theme='dark'] .highlight pre,
-[data-theme='dark'] .highlight code {
-  background: #161b22 !important;
-  color: #c9d1d9 !important;
-  border: 1px solid #30363d !important;
-}
-
-[data-theme='dark'] pre code {
-  background: transparent !important;
-}
-
-/* 引用块样式 */
-[data-theme='dark'] blockquote {
-  background: rgba(22, 27, 34, 0.6) !important;
-  border-left: 4px solid #00ff41 !important;
-  color: #c9d1d9 !important;
-  border-color: #30363d !important;
-}
-
-/* 表格样式 */
-[data-theme='dark'] table,
-[data-theme='dark'] table th,
-[data-theme='dark'] table td {
-  background: rgba(22, 27, 34, 0.9) !important;
-  border-color: #30363d !important;
-  color: #c9d1d9 !important;
-}
-
-[data-theme='dark'] table th {
-  background: rgba(22, 27, 34, 1) !important;
-}
-
-[data-theme='dark'] table tr:nth-child(even) {
-  background: rgba(22, 27, 34, 0.7) !important;
-}
-
-/* 侧边栏样式 */
-[data-theme='dark'] #aside-content,
-[data-theme='dark'] #sidebar,
-[data-theme='dark'] #sidebar-menus {
-  background: rgba(13, 17, 23, 0.95) !important;
-}
-
-[data-theme='dark'] #sidebar .menus_item a,
-[data-theme='dark'] #aside-content .card-widget .card-content,
-[data-theme='dark'] #aside-content .card-widget .item-headline {
-  color: #c9d1d9 !important;
-}
-
-/* 右侧功能按钮 */
-[data-theme='dark'] #rightside {
-  background: rgba(22, 27, 34, 0.9) !important;
-}
-
-[data-theme='dark'] #rightside .rightside-config-btn,
-[data-theme='dark'] #rightside button {
-  background: rgba(22, 27, 34, 0.9) !important;
-  color: #c9d1d9 !important;
-  border: 1px solid #30363d !important;
-}
-
-/* 搜索框 */
-[data-theme='dark'] #search-form,
-[data-theme='dark'] #search-form input,
-[data-theme='dark'] #local-search {
-  background: rgba(22, 27, 34, 0.9) !important;
-  color: #c9d1d9 !important;
-  border-color: #30363d !important;
-}
-
-/* 分页 */
-[data-theme='dark'] .pagination .page-number,
-[data-theme='dark'] .pagination .prev,
-[data-theme='dark'] .pagination .next {
-  background: rgba(22, 27, 34, 0.9) !important;
-  color: #c9d1d9 !important;
-  border-color: #30363d !important;
-}
-
-[data-theme='dark'] .pagination .page-number.current {
-  background: rgba(0, 255, 65, 0.2) !important;
-  color: #00ff41 !important;
-  border-color: #00ff41 !important;
-}
-
-/* 标签和分类 */
-[data-theme='dark'] .post-category,
-[data-theme='dark'] .post-tags a,
-[data-theme='dark'] .tagcloud a {
-  background: rgba(22, 27, 34, 0.9) !important;
-  color: #58a6ff !important;
-  border-color: #30363d !important;
-}
-
-[data-theme='dark'] .post-tags a:hover,
-[data-theme='dark'] .tagcloud a:hover {
-  background: rgba(88, 166, 255, 0.2) !important;
-  color: #79c0ff !important;
-}
-
-/* 阅读模式适配 */
-[data-theme='dark'] .read-mode .layout_post > #post {
-  background: rgba(22, 27, 34, 0.95) !important;
-  color: #c9d1d9 !important;
-}
-
-/* =========================================
-   2. 首页按钮样式（在所有模式下都生效）
-   ========================================= */
-
+/* 4. 极客按钮样式 */
 .geek-home-btn-container {
-  margin: 20px 0;
-  text-align: left;
+    margin: 20px 0;
+    text-align: left;
 }
 
 .geek-home-btn {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  padding: 0;
-  background-color: #00ff00;
-  border: 1px solid #00ff00;
-  text-decoration: none;
-  border-radius: 50%;
-  box-shadow: 0 0 8px rgba(0, 255, 0, 0.4);
-  transition: all 0.3s ease;
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #000;
+    color: #00ff00;
+    border: 1px solid #00ff00;
+    border-radius: 4px;
+    font-family: 'Consolas', monospace;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
 }
 
 .geek-home-btn:hover {
-  background-color: #00ff41;
-  box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
-  cursor: pointer;
-  transform: scale(1.2);
+    background-color: #00ff00;
+    color: #000;
+    cursor: pointer;
 }
 
-/* 在首页摘要、归档页里隐藏按钮 */
-.recent-post-item .geek-home-btn-container,
-.archive .geek-home-btn-container,
-.category .geek-home-btn-container,
-.tag .geek-home-btn-container {
-  display: none !important;
+/* 5. 关键修复：隐藏首页摘要里的按钮，防止布局错乱 */
+.recent-post-item .geek-home-btn-container {
+    display: none !important;
 }
-
-/* =========================================
-   3. 滚动条样式（深色模式）
-   ========================================= */
-
-[data-theme='dark'] ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-[data-theme='dark'] ::-webkit-scrollbar-track {
-  background: #0d1117;
-}
-
-[data-theme='dark'] ::-webkit-scrollbar-thumb {
-  background: #30363d;
-  border-radius: 4px;
-}
-
-[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
-  background: #484f58;
-}
-
-/* =========================================
-   4. 其他元素补充
-   ========================================= */
-
-/* 目录样式 */
-[data-theme='dark'] #toc,
-[data-theme='dark'] .toc {
-  background: rgba(22, 27, 34, 0.9) !important;
-  border-color: #30363d !important;
-}
-
-[data-theme='dark'] #toc a,
-[data-theme='dark'] .toc a {
-  color: #c9d1d9 !important;
-}
-
-[data-theme='dark'] #toc a:hover,
-[data-theme='dark'] .toc a:hover {
-  color: #00ff41 !important;
-}
-
-/* 提示框/Note样式 */
-[data-theme='dark'] .note,
-[data-theme='dark'] .note-default,
-[data-theme='dark'] .note-primary,
-[data-theme='dark'] .note-success,
-[data-theme='dark'] .note-info,
-[data-theme='dark'] .note-warning,
-[data-theme='dark'] .note-danger {
-  background: rgba(22, 27, 34, 0.9) !important;
-  border-color: #30363d !important;
-  color: #c9d1d9 !important;
-}
-
-/* 按钮样式 */
-[data-theme='dark'] button,
-[data-theme='dark'] .btn,
-[data-theme='dark'] .button {
-  background: rgba(22, 27, 34, 0.9) !important;
-  color: #c9d1d9 !important;
-  border-color: #30363d !important;
-}
-
-[data-theme='dark'] button:hover,
-[data-theme='dark'] .btn:hover,
-[data-theme='dark'] .button:hover {
-  background: rgba(48, 54, 61, 0.9) !important;
-  border-color: #58a6ff !important;
-}
-
