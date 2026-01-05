@@ -1059,6 +1059,8 @@ inject:
   head:
     # 引入我们刚才创建的自定义 CSS 文件
     - <link rel="stylesheet" href="/css/geek_style.css">
+    # 强制深色模式
+    - <script>document.documentElement.setAttribute('data-theme','dark');</script>
   bottom:
 
 # Custom CSS
