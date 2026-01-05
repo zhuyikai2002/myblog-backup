@@ -44,7 +44,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
-          cname: qzkj.ltd  # 如果你有自定义域名
+          # cname: qzkj.ltd  # 注释掉，因为域名指向 VPS
 
       # 部署到 VPS
       - name: Deploy to VPS via rsync
