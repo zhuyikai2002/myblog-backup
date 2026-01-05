@@ -1058,15 +1058,11 @@ css_prefix: true
 inject:
   head:
     # 引入我们刚才创建的自定义 CSS 文件
-    - <link rel="stylesheet" href="/blog/css/geek_style.css">
-    # 强制深色模式脚本（在页面加载前执行）
-    - <script>(function(){document.documentElement.setAttribute('data-theme','dark');if(window.btf&&window.btf.activateDarkMode){window.btf.activateDarkMode();}if(typeof localStorage!=='undefined'){try{const theme=localStorage.getItem('theme');if(theme){const parsed=JSON.parse(theme);if(parsed.value!=='dark'){localStorage.setItem('theme',JSON.stringify({value:'dark',expiry:Date.now()+2*86400000}));}}else{localStorage.setItem('theme',JSON.stringify({value:'dark',expiry:Date.now()+2*86400000}));}}catch(e){}}})();</script>
+    - <link rel="stylesheet" href="/css/geek_style.css">
   bottom:
-    # 强制深色模式（确保在主题切换脚本之后执行）
-    - <script>(function(){if(document.documentElement.getAttribute('data-theme')!=='dark'){document.documentElement.setAttribute('data-theme','dark');}if(window.btf&&window.btf.activateDarkMode){window.btf.activateDarkMode();}})();</script>
 
 # Custom CSS
-custom_css: /blog/css/geek_style.css
+custom_css: /css/geek_style.css
 
 # CDN Settings
 # Don't modify the following settings unless you know how they work
