@@ -1,0 +1,532 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>🔬 Rik's Laboratory | Rik的极客笔记</title><meta name="author" content="Rik"><meta name="copyright" content="Rik"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="&#x2F;* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; 全局样式 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; *&#x2F; .lab-container {   font-family: &#39;Consolas&#39;, &#39;Monaco&#39;, &#39;Courier New&#39;, monospace;   background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 10">
+<meta property="og:type" content="website">
+<meta property="og:title" content="🔬 Rik&#39;s Laboratory">
+<meta property="og:url" content="https://zhuyikai2002.github.io/myblog-backup/lab/index.html">
+<meta property="og:site_name" content="Rik的极客笔记">
+<meta property="og:description" content="&#x2F;* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; 全局样式 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; *&#x2F; .lab-container {   font-family: &#39;Consolas&#39;, &#39;Monaco&#39;, &#39;Courier New&#39;, monospace;   background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 10">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/linux.png">
+<meta property="article:published_time" content="2026-01-05T08:01:00.082Z">
+<meta property="article:modified_time" content="2026-01-05T08:01:00.082Z">
+<meta property="article:author" content="Rik">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/linux.png"><script type="application/ld+json"></script><link rel="shortcut icon" href="/blog/%5Bobject%20Object%5D"><link rel="canonical" href="https://zhuyikai2002.github.io/myblog-backup/lab/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/blog/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '🔬 Rik\'s Laboratory',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'page'
+}</script><link rel="stylesheet" href="/blog/css/geek_style.css"><meta name="generator" content="Hexo 8.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/linux.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/blog/lab/"><i class="fa-fw fas fa-flask"></i><span> Lab 实验室</span></a></div></div></div></div><div class="page type-lab" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/blog/"><span class="site-name">Rik的极客笔记</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/blog/lab/"><i class="fa-fw fas fa-flask"></i><span> Lab 实验室</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><h1 class="title-seo">🔬 Rik's Laboratory</h1></header><main class="layout hide-aside" id="content-inner"><div id="page"><div class="page-title">🔬 Rik's Laboratory</div><div class="container" id="article-container"><div class="geek-home-btn-container">
+  <a href="/" class="geek-home-btn" title="返回首页"></a>
+</div>
+
+<style>
+/* ==================== 全局样式 ==================== */
+.lab-container {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+  color: #00ff41;
+  padding: 2rem 1rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 255, 65, 0.1);
+  margin: 2rem auto;
+  max-width: 1200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.lab-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 255, 65, 0.03) 0px,
+      transparent 1px,
+      transparent 2px,
+      rgba(0, 255, 65, 0.03) 3px
+    );
+  pointer-events: none;
+  animation: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(100%); }
+}
+
+/* ==================== 标题区 ==================== */
+.lab-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: rgba(0, 255, 65, 0.05);
+  border: 2px solid rgba(0, 255, 65, 0.3);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+
+.lab-header::before,
+.lab-header::after {
+  content: '▸';
+  position: absolute;
+  color: #00ff41;
+  font-size: 1.5rem;
+  animation: blink 1.5s infinite;
+}
+
+.lab-header::before {
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.lab-header::after {
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.3; }
+}
+
+.system-status {
+  font-size: 1.8rem;
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-shadow: 
+    0 0 10px rgba(0, 255, 65, 0.8),
+    0 0 20px rgba(0, 255, 65, 0.5),
+    0 0 30px rgba(0, 255, 65, 0.3);
+  animation: glitch 3s infinite;
+}
+
+@keyframes glitch {
+  0%, 90%, 100% { 
+    text-shadow: 
+      0 0 10px rgba(0, 255, 65, 0.8),
+      0 0 20px rgba(0, 255, 65, 0.5);
+  }
+  95% { 
+    text-shadow: 
+      -2px 0 10px rgba(255, 0, 0, 0.8),
+      2px 0 20px rgba(0, 255, 255, 0.8);
+  }
+}
+
+.cursor-blink {
+  animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes cursor-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* ==================== 项目网格 ==================== */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* ==================== 项目卡片 ==================== */
+.project-card {
+  background: rgba(10, 14, 39, 0.7);
+  border: 1px solid rgba(0, 255, 65, 0.3);
+  border-radius: 8px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00ff41, transparent);
+  animation: scan 3s infinite;
+}
+
+@keyframes scan {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  border-color: #00ff41;
+  box-shadow: 
+    0 5px 25px rgba(0, 255, 65, 0.3),
+    inset 0 0 20px rgba(0, 255, 65, 0.1);
+}
+
+.project-card.status-online {
+  border-left: 4px solid #00ff41;
+}
+
+.project-card.status-coding {
+  border-left: 4px solid #ff9500;
+}
+
+.project-card.status-stable {
+  border-left: 4px solid #00ffff;
+}
+
+.project-card.status-offline {
+  border-left: 4px solid #666;
+  opacity: 0.6;
+}
+
+/* ==================== 卡片内容 ==================== */
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px dashed rgba(0, 255, 65, 0.2);
+}
+
+.project-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #00ff41;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.project-status {
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.status-online {
+  background: rgba(0, 255, 65, 0.2);
+  color: #00ff41;
+  border: 1px solid #00ff41;
+}
+
+.status-online::before {
+  content: '●';
+  margin-right: 0.3rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.status-coding {
+  background: rgba(255, 149, 0, 0.2);
+  color: #ff9500;
+  border: 1px solid #ff9500;
+}
+
+.status-coding::before {
+  content: '▶';
+  margin-right: 0.3rem;
+}
+
+.status-stable {
+  background: rgba(0, 255, 255, 0.2);
+  color: #00ffff;
+  border: 1px solid #00ffff;
+}
+
+.status-stable::before {
+  content: '✓';
+  margin-right: 0.3rem;
+}
+
+.status-offline {
+  background: rgba(102, 102, 102, 0.2);
+  color: #999;
+  border: 1px solid #666;
+}
+
+.status-offline::before {
+  content: '○';
+  margin-right: 0.3rem;
+}
+
+.project-description {
+  color: #a0a0a0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.tag {
+  background: rgba(0, 255, 65, 0.1);
+  color: #00ff41;
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  border: 1px solid rgba(0, 255, 65, 0.3);
+}
+
+/* ==================== 响应式设计 ==================== */
+@media (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .system-status {
+    font-size: 1.2rem;
+  }
+  
+  .lab-container {
+    padding: 1rem;
+  }
+}
+
+/* ==================== 滚动条样式 ==================== */
+.lab-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.lab-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.lab-container::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 65, 0.5);
+  border-radius: 4px;
+}
+
+.lab-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 65, 0.8);
+}
+</style>
+
+<div class="lab-container">
+  <div class="lab-header">
+    <div class="system-status">
+      > SYSTEM_STATUS: ONLINE<span class="cursor-blink">_</span>
+    </div>
+  </div>
+
+  <div class="projects-grid">
+    <!-- 项目 A: 桌面功放系统 -->
+    <div class="project-card status-online">
+      <div class="project-header">
+        <div class="project-title">🔊 Desktop Audio</div>
+        <div class="project-status status-online">Online</div>
+      </div>
+      <div class="project-description">
+        基于 ZK-LT21 芯片的桌面功放系统，集成 IP2326 快充协议与智能电池管理系统 (BMS)。硬件设计已完成 PCB 打样。
+      </div>
+      <div class="project-tags">
+        <span class="tag">ZK-LT21</span>
+        <span class="tag">IP2326</span>
+        <span class="tag">BMS</span>
+        <span class="tag">Hardware</span>
+      </div>
+    </div>
+
+<pre><code>&lt;!-- 项目 B: STM32 裸机开发 --&gt;
+&lt;div class=&quot;project-card status-coding&quot;&gt;
+  &lt;div class=&quot;project-header&quot;&gt;
+    &lt;div class=&quot;project-title&quot;&gt;⚡ STM32 Bare-Metal&lt;/div&gt;
+    &lt;div class=&quot;project-status status-coding&quot;&gt;Coding&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;project-description&quot;&gt;
+    纯寄存器级 STM32 开发实践，实现 PWM 波形生成、UART 串口通信，使用逻辑分析仪进行信号调试。拒绝 HAL 库依赖。
+  &lt;/div&gt;
+  &lt;div class=&quot;project-tags&quot;&gt;
+    &lt;span class=&quot;tag&quot;&gt;Register&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;PWM&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;UART&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;Logic Analyzer&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- 项目 C: Linux 基础设施 --&gt;
+&lt;div class=&quot;project-card status-stable&quot;&gt;
+  &lt;div class=&quot;project-header&quot;&gt;
+    &lt;div class=&quot;project-title&quot;&gt;🐧 Linux Infra&lt;/div&gt;
+    &lt;div class=&quot;project-status status-stable&quot;&gt;Stable&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;project-description&quot;&gt;
+    基于 Debian 的轻量化网络服务架构，使用 Mihomo 实现代理转发，内存占用优化至 30MB。已稳定运行于生产环境。
+  &lt;/div&gt;
+  &lt;div class=&quot;project-tags&quot;&gt;
+    &lt;span class=&quot;tag&quot;&gt;Mihomo&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;Debian&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;30MB RAM&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;Optimized&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- 项目 D: 待定项目 --&gt;
+&lt;div class=&quot;project-card status-offline&quot;&gt;
+  &lt;div class=&quot;project-header&quot;&gt;
+    &lt;div class=&quot;project-title&quot;&gt;🚀 Next Project&lt;/div&gt;
+    &lt;div class=&quot;project-status status-offline&quot;&gt;Planned&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;project-description&quot;&gt;
+    预留项目槽位。未来可能方向：RISC-V 嵌入式开发、Rust 系统编程、FPGA 数字电路设计或其他硬核技术探索。
+  &lt;/div&gt;
+  &lt;div class=&quot;project-tags&quot;&gt;
+    &lt;span class=&quot;tag&quot;&gt;TBD&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;Future&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+  </div>
+</div>
+</div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Rik</span></div><div class="footer_custom_text">© 2025 Rik | <span style="color:#00ff41">System Online.</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/blog/js/utils.js?v=5.5.3"></script><script src="/blog/js/main.js?v=5.5.3"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
