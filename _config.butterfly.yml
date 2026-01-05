@@ -1057,7 +1057,7 @@ css_prefix: true
 
 inject:
   head:
-    - <link rel="stylesheet" href="/css/geek_style.css">
+    - <link rel="stylesheet" href="/blog/css/geek_style.css">
   bottom:
 
 # Custom CSS
