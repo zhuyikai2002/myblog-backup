@@ -1,5 +1,5 @@
 ---
-title: 把 Arch Linux 装进固态 U 盘，打造随身"练功房"
+title: 把 Arch Linux 装进固态 U 盘，打造随身“练功房”
 date: 2026-01-06 22:30:00
 tags: [Arch Linux, Hyprland, USB, STM32, Neovim, Linux]
 categories: [折腾记录]
@@ -23,7 +23,7 @@ description: 手头有一个努米诺固态 U 盘，突发奇想把 Arch Linux �
 
 ## 🚧 装修毛坯房：Hyprland 的初体验
 
-重启进入系统，迎接我的是经典的"Wc，啥也没有？"时刻。
+重启进入系统，迎接我的是经典的“Wc，啥也没有？”时刻。
 Hyprland 默认真的就是一个黑屏加光标。没有 Docker，没有菜单，连壁纸都没有。
 
 ### 1. 基础生存操作
@@ -32,7 +32,7 @@ Hyprland 默认真的就是一个黑屏加光标。没有 Docker，没有菜单�
 * **退出**：`Win + M`
 
 ### 2. 补全家具
-archinstall 给了个极简环境，不得不手动"进货"：
+archinstall 给了个极简环境，不得不手动“进货”：
 ```bash
 sudo pacman -S waybar dunst hyprpaper
 ```
@@ -73,7 +73,7 @@ sudo pacman -S wqy-zenhei
 
 ### 4. 局域网加速
 
-为了装软件快点，利用了旁边的 Mac。在 Mac 上开启 Clash 的 "Allow LAN"，然后在 Arch 里临时挂代理：
+为了装软件快点，利用了旁边的 Mac。在 Mac 上开启 Clash 的 “Allow LAN”，然后在 Arch 里临时挂代理：
 
 ```bash
 export http_proxy=http://192.168.x.x:7890
@@ -85,8 +85,8 @@ export http_proxy=http://192.168.x.x:7890
 
 我有性能强大的 M4 Mac，但我意识到：
 
-* **Mac (ARM)**：是我的"指挥部"，负责日常、文档、娱乐。
-* **Arch U盘 (x86)**：是我的"精神时光屋"。
+* **Mac (ARM)**：是我的“指挥部”，负责日常、文档、娱乐。
+* **Arch U盘 (x86)**：是我的“精神时光屋”。
 
 在这个 U 盘系统里，我做了一个决定：**不安装 VS Code，不装 IDE。**
 接下来的 STM32 开发，我将强制自己使用 **Neovim + GCC + Makefile + OpenOCD** 的纯终端流。
