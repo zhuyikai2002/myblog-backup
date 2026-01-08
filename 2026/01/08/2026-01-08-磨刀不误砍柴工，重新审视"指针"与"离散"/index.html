@@ -1,0 +1,193 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>磨刀不误砍柴工，重新审视&quot;指针&quot;与&quot;离散&quot; | Rik的极客笔记</title><meta name="author" content="Rik"><meta name="copyright" content="Rik"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="今天按下了暂停键，暂时搁置了硬件调试。整理了手机桌面，也顺便整理了学习思路。在与 AI 的交流中，明确了后续需要补足的两块基石：离散数学的逻辑基础和 C 语言的灵魂——指针。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="磨刀不误砍柴工，重新审视&quot;指针&quot;与&quot;离散&quot;">
+<meta property="og:url" content="https://zhuyikai2002.github.io/myblog-backup/2026/01/08/2026-01-08-%E7%A3%A8%E5%88%80%E4%B8%8D%E8%AF%AF%E7%A0%8D%E6%9F%B4%E5%B7%A5%EF%BC%8C%E9%87%8D%E6%96%B0%E5%AE%A1%E8%A7%86%22%E6%8C%87%E9%92%88%22%E4%B8%8E%22%E7%A6%BB%E6%95%A3%22/index.html">
+<meta property="og:site_name" content="Rik的极客笔记">
+<meta property="og:description" content="今天按下了暂停键，暂时搁置了硬件调试。整理了手机桌面，也顺便整理了学习思路。在与 AI 的交流中，明确了后续需要补足的两块基石：离散数学的逻辑基础和 C 语言的灵魂——指针。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/linux.png">
+<meta property="article:published_time" content="2026-01-08T14:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-08T14:20:50.268Z">
+<meta property="article:author" content="Rik">
+<meta property="article:tag" content="C语言">
+<meta property="article:tag" content="休息">
+<meta property="article:tag" content="指针">
+<meta property="article:tag" content="杂谈">
+<meta property="article:tag" content="离散数学">
+<meta property="article:tag" content="规划">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/linux.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "磨刀不误砍柴工，重新审视\"指针\"与\"离散\"",
+  "url": "https://zhuyikai2002.github.io/myblog-backup/2026/01/08/2026-01-08-%E7%A3%A8%E5%88%80%E4%B8%8D%E8%AF%AF%E7%A0%8D%E6%9F%B4%E5%B7%A5%EF%BC%8C%E9%87%8D%E6%96%B0%E5%AE%A1%E8%A7%86%22%E6%8C%87%E9%92%88%22%E4%B8%8E%22%E7%A6%BB%E6%95%A3%22/",
+  "image": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/linux.png",
+  "datePublished": "2026-01-08T14:00:00.000Z",
+  "dateModified": "2026-01-08T14:20:50.268Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Rik",
+      "url": "https://zhuyikai2002.github.io/myblog-backup"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/blog/%5Bobject%20Object%5D"><link rel="canonical" href="https://zhuyikai2002.github.io/myblog-backup/2026/01/08/2026-01-08-%E7%A3%A8%E5%88%80%E4%B8%8D%E8%AF%AF%E7%A0%8D%E6%9F%B4%E5%B7%A5%EF%BC%8C%E9%87%8D%E6%96%B0%E5%AE%A1%E8%A7%86%22%E6%8C%87%E9%92%88%22%E4%B8%8E%22%E7%A6%BB%E6%95%A3%22/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/blog/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '磨刀不误砍柴工，重新审视"指针"与"离散"',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/blog/css/geek_style.css"><meta name="generator" content="Hexo 8.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/linux.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">38</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/blog/lab/"><i class="fa-fw fas fa-flask"></i><span> Lab 实验室</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/blog/"><span class="site-name">Rik的极客笔记</span></a><a class="nav-page-title" href="/blog/"><span class="site-name">磨刀不误砍柴工，重新审视&quot;指针&quot;与&quot;离散&quot;</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/blog/lab/"><i class="fa-fw fas fa-flask"></i><span> Lab 实验室</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">磨刀不误砍柴工，重新审视&quot;指针&quot;与&quot;离散&quot;</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-08T14:00:00.000Z" title="发表于 2026-01-08 22:00:00">2026-01-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-08T14:20:50.268Z" title="更新于 2026-01-08 22:20:50">2026-01-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/blog/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%8A%98%E8%85%BE%E6%97%A5%E8%AE%B0/">嵌入式折腾日记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div class="geek-home-btn-container">
+  <a href="/" class="geek-home-btn" title="返回首页"></a>
+</div>
+
+<blockquote>
+<p><strong>摘要</strong>：今天按下了暂停键，暂时搁置了硬件调试。整理了手机桌面，也顺便整理了学习思路。在与 AI 的交流中，明确了后续需要补足的两块基石：离散数学的逻辑基础和 C 语言的灵魂——指针。</p>
+</blockquote>
+<hr>
+<p><strong>时间：</strong> 2026.01.08<br><strong>状态：</strong> 🔋 充电中 (Resting)</p>
+<h2 id="🧹-整理：从桌面到思绪"><a href="#🧹-整理：从桌面到思绪" class="headerlink" title="🧹 整理：从桌面到思绪"></a>🧹 整理：从桌面到思绪</h2><p>昨天搞定了串口中断，兴奋劲过去后，今天感觉需要稍微”刹一脚”。并没有急着去弄 PWM 呼吸灯和 ADC 旋钮（虽然线都准备好了，但我想把它们留到精神更好的时候）。</p>
+<p>今天大部分时间都在休息，顺手把手机桌面整理了一番。有时候，<strong>清理数字空间也是一种心理暗示</strong>，把杂乱的图标归类，就像是把脑子里乱七八糟的念头理顺一样。看着清爽的屏幕，心情也跟着好了不少。</p>
+<h2 id="🗺️-规划：看见了冰山的水下部分"><a href="#🗺️-规划：看见了冰山的水下部分" class="headerlink" title="🗺️ 规划：看见了冰山的水下部分"></a>🗺️ 规划：看见了冰山的水下部分</h2><p>在和 AI 闲聊的过程中，我意识到一个问题：虽然我现在能照着教程跑通 STM32 的外设，但想要真正”玩转”嵌入式，还有两座大山需要翻越。</p>
+<h3 id="1-离散数学-Discrete-Mathematics"><a href="#1-离散数学-Discrete-Mathematics" class="headerlink" title="1. 离散数学 (Discrete Mathematics)"></a>1. 离散数学 (Discrete Mathematics)</h3><p>以前觉得数学离编程很远，现在才发现，计算机本质上就是建立在离散数学之上的。无论是逻辑门电路的 <strong>布尔代数</strong>，还是将来写复杂算法时的 <strong>图论</strong> 和 <strong>集合</strong>，离散数学都是那层底层的”内功心法”。</p>
+<h3 id="2-C-语言基础-尤其是指针"><a href="#2-C-语言基础-尤其是指针" class="headerlink" title="2. C 语言基础 (尤其是指针)"></a>2. C 语言基础 (尤其是指针)</h3><p>虽然能写简单的 <code>if-else</code>，但 C 语言真正的威力在于 <strong>直接操作内存</strong>。今天特意请教了 AI 关于 <strong>“指针”</strong> 的概念，终于对这个”大魔王”有了一点感性的认识：</p>
+<ul>
+<li><strong>变量</strong> 就像是 <strong>房间里的东西</strong>（值）。</li>
+<li><strong>指针</strong> 就像是 <strong>房间号</strong>（地址）。</li>
+<li><strong>嵌入式开发</strong> 就像是拿着一张写满房间号的地图，我们可以通过指针，直接去修改寄存器这个”房间”里的配置，从而控制硬件。</li>
+</ul>
+<p>以前听到指针就头大，现在结合这两天操作寄存器的经历，突然觉得指针也没那么抽象了，它就是通往硬件的钥匙。</p>
+<h2 id="📝-总结"><a href="#📝-总结" class="headerlink" title="📝 总结"></a>📝 总结</h2><p>今天虽然代码一行没写，线一根没接，但心里的方向盘握得更稳了。</p>
+<ul>
+<li><strong>硬件上：</strong> 明天或者后天，继续攻克 PWM 和 ADC，把物理旋钮做出来。</li>
+<li><strong>软件上：</strong> 准备找时间系统地补一下 C 语言指针的知识，不能只满足于”能跑就行”。</li>
+</ul>
+<p>所谓”磨刀不误砍柴工”，今天的休息，是为了明天能更精准地”砍”向 Bug。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://zhuyikai2002.github.io/myblog-backup">Rik</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zhuyikai2002.github.io/myblog-backup/2026/01/08/2026-01-08-%E7%A3%A8%E5%88%80%E4%B8%8D%E8%AF%AF%E7%A0%8D%E6%9F%B4%E5%B7%A5%EF%BC%8C%E9%87%8D%E6%96%B0%E5%AE%A1%E8%A7%86%22%E6%8C%87%E9%92%88%22%E4%B8%8E%22%E7%A6%BB%E6%95%A3%22/">https://zhuyikai2002.github.io/myblog-backup/2026/01/08/2026-01-08-%E7%A3%A8%E5%88%80%E4%B8%8D%E8%AF%AF%E7%A0%8D%E6%9F%B4%E5%B7%A5%EF%BC%8C%E9%87%8D%E6%96%B0%E5%AE%A1%E8%A7%86%22%E6%8C%87%E9%92%88%22%E4%B8%8E%22%E7%A6%BB%E6%95%A3%22/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://zhuyikai2002.github.io/myblog-backup" target="_blank">Rik的极客笔记</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/blog/tags/%E4%BC%91%E6%81%AF/">休息</a><a class="post-meta__tags" href="/blog/tags/%E8%A7%84%E5%88%92/">规划</a><a class="post-meta__tags" href="/blog/tags/C%E8%AF%AD%E8%A8%80/">C语言</a><a class="post-meta__tags" href="/blog/tags/%E6%8C%87%E9%92%88/">指针</a><a class="post-meta__tags" href="/blog/tags/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/">离散数学</a><a class="post-meta__tags" href="/blog/tags/%E6%9D%82%E8%B0%88/">杂谈</a></div><div class="post-share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/linux.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/blog/2026/01/07/2026-01-07-%E5%91%8A%E5%88%AB%E8%87%AA%E8%A8%80%E8%87%AA%E8%AF%AD%EF%BC%8C%E8%AE%A9%20STM32%20%E5%90%AC%E6%87%82%E6%88%91%E7%9A%84%E8%AF%9D%20(UART%E4%B8%AD%E6%96%AD%E5%AE%9E%E6%88%98)/" title="告别自言自语，让 STM32 听懂我的话 (UART中断实战)"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">告别自言自语，让 STM32 听懂我的话 (UART中断实战)</div></div><div class="info-2"><div class="info-item-1">之前用 OpenOCD 点亮了呼吸灯，今天决定换个玩法：用串口 (UART) 跟板子聊天。作为 Linux 嵌入式原生玩家，体验了 VS Code 强大的 Tab 补全功能，随后抛弃轮询拥抱中断。使用 USB-TTL 配合 stm32flash 进行 ISP 烧录，在 Linux 终端用 picocom 充当串口助手，踩了“手滑”、括号缺失、引脚配置等坑，最终实现中断回调控制 LED。</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/linux.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Rik</div><div class="author-info-description">一个兴趣使然的学习者</div><div class="site-data"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">38</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zhuyikai2002"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%A7%B9-%E6%95%B4%E7%90%86%EF%BC%9A%E4%BB%8E%E6%A1%8C%E9%9D%A2%E5%88%B0%E6%80%9D%E7%BB%AA"><span class="toc-number">1.</span> <span class="toc-text">🧹 整理：从桌面到思绪</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%97%BA%EF%B8%8F-%E8%A7%84%E5%88%92%EF%BC%9A%E7%9C%8B%E8%A7%81%E4%BA%86%E5%86%B0%E5%B1%B1%E7%9A%84%E6%B0%B4%E4%B8%8B%E9%83%A8%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text">🗺️ 规划：看见了冰山的水下部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6-Discrete-Mathematics"><span class="toc-number">2.1.</span> <span class="toc-text">1. 离散数学 (Discrete Mathematics)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-C-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80-%E5%B0%A4%E5%85%B6%E6%98%AF%E6%8C%87%E9%92%88"><span class="toc-number">2.2.</span> <span class="toc-text">2. C 语言基础 (尤其是指针)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%9D-%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">📝 总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/blog/2026/01/08/2026-01-08-%E7%A3%A8%E5%88%80%E4%B8%8D%E8%AF%AF%E7%A0%8D%E6%9F%B4%E5%B7%A5%EF%BC%8C%E9%87%8D%E6%96%B0%E5%AE%A1%E8%A7%86%22%E6%8C%87%E9%92%88%22%E4%B8%8E%22%E7%A6%BB%E6%95%A3%22/" title="磨刀不误砍柴工，重新审视&quot;指针&quot;与&quot;离散&quot;">磨刀不误砍柴工，重新审视&quot;指针&quot;与&quot;离散&quot;</a><time datetime="2026-01-08T14:00:00.000Z" title="发表于 2026-01-08 22:00:00">2026-01-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/blog/2026/01/07/2026-01-07-%E5%91%8A%E5%88%AB%E8%87%AA%E8%A8%80%E8%87%AA%E8%AF%AD%EF%BC%8C%E8%AE%A9%20STM32%20%E5%90%AC%E6%87%82%E6%88%91%E7%9A%84%E8%AF%9D%20(UART%E4%B8%AD%E6%96%AD%E5%AE%9E%E6%88%98)/" title="告别自言自语，让 STM32 听懂我的话 (UART中断实战)">告别自言自语，让 STM32 听懂我的话 (UART中断实战)</a><time datetime="2026-01-07T14:30:00.000Z" title="发表于 2026-01-07 22:30:00">2026-01-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/blog/2026/01/06/2026-01-06-%E6%8A%8A%20Arch%20Linux%20%E8%A3%85%E8%BF%9B%E5%9B%BA%E6%80%81%20U%20%E7%9B%98%EF%BC%8C%E6%89%93%E9%80%A0%E9%9A%8F%E8%BA%AB%22%E7%BB%83%E5%8A%9F%E6%88%BF%22/" title="把 Arch Linux 装进固态 U 盘，打造随身“练功房”">把 Arch Linux 装进固态 U 盘，打造随身“练功房”</a><time datetime="2026-01-06T14:30:00.000Z" title="发表于 2026-01-06 22:30:00">2026-01-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/blog/2026/01/05/2026-01-05-Qoder%20%E6%90%9E%E7%A0%B8%E4%BA%86%E6%88%91%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%EF%BC%8C%E5%BC%95%E5%8F%91%E4%BA%86%E2%80%9C%E4%BC%81%E9%B9%85%E6%83%A8%E6%A1%88%E2%80%9D/" title="AI 挖坑、企鹅惨案与老哥的“降维打击”">AI 挖坑、企鹅惨案与老哥的“降维打击”</a><time datetime="2026-01-05T15:45:00.000Z" title="发表于 2026-01-05 23:45:00">2026-01-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/blog/2026/01/04/2026-01-04-%E6%95%88%E7%8E%87%E9%A3%9E%E8%B7%83%EF%BC%81%E7%94%A8%20Gemini%20+%20VS%20Code%20%E5%A4%8D%E5%88%BB%20Cursor%20%E4%BD%93%E9%AA%8C/" title="效率飞跃！用 Gemini + VS Code 复刻 Cursor 体验">效率飞跃！用 Gemini + VS Code 复刻 Cursor 体验</a><time datetime="2026-01-04T14:00:00.000Z" title="发表于 2026-01-04 22:00:00">2026-01-04</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Rik</span></div><div class="footer_custom_text">© 2025 Rik | <span style="color:#00ff41">System Online.</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/blog/js/utils.js?v=5.5.3"></script><script src="/blog/js/main.js?v=5.5.3"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
