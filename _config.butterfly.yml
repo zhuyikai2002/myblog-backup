@@ -18,10 +18,7 @@ nav:
   fixed: false
 
 menu:
-  Home: / || fas fa-home
-  Blog: /blog/ || fas fa-book
-  About: /blog/about/ || fas fa-user
-  Lab: /blog/lab/ || fas fa-flask
+  # 菜单已禁用 - 直接从主页访问各个页面
 
 # --------------------------------------
 # Code Blocks Settings
