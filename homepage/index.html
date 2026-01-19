@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rik's Workspace | QZKJ.LTD</title>
+    <title>Rik@QZKJ:~$</title>
     <style>
         * {
             margin: 0;
@@ -12,177 +12,365 @@
         }
 
         body {
-            background: linear-gradient(135deg, #0d1117 0%, #1a1f2e 100%);
-            color: #00ff41;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            position: relative;
+            background: #0a0e14;
+            color: #b3b1ad;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', 'Monaco', monospace;
+            font-size: 16px;
+            line-height: 1.6;
             overflow: hidden;
         }
 
-        body::before {
-            content: '';
+        #terminal {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(0, 255, 65, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 255, 65, 0.05) 0%, transparent 50%);
-            pointer-events: none;
+            padding: 20px;
+            overflow-y: auto;
+            background: #0a0e14;
         }
 
-        .container {
-            max-width: 900px;
-            width: 100%;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 60px;
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        .logo {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            text-shadow: 0 0 20px rgba(0, 255, 65, 0.6);
-            animation: glow 2s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 20px rgba(0, 255, 65, 0.6); }
-            50% { text-shadow: 0 0 30px rgba(0, 255, 65, 0.8); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .title {
-            font-size: 2.5rem;
+        #output {
             margin-bottom: 10px;
-            color: #00ff41;
         }
 
-        .subtitle {
-            color: #8b949e;
-            font-size: 1rem;
-            letter-spacing: 2px;
+        .line {
+            margin: 4px 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
 
-        .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .nav-card {
-            background: rgba(22, 27, 34, 0.8);
-            border: 2px solid #30363d;
-            border-radius: 12px;
-            padding: 30px;
-            text-decoration: none;
-            color: #00ff41;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .nav-card:hover::before {
-            left: 100%;
-        }
-
-        .nav-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: #00ff41;
-            box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
-        }
-
-        .nav-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .nav-title {
-            font-size: 1.3rem;
+        .prompt {
+            color: #39bae6;
             font-weight: bold;
-            margin-bottom: 8px;
         }
 
-        .nav-desc {
-            color: #8b949e;
-            font-size: 0.85rem;
-            line-height: 1.5;
+        .path {
+            color: #59c2ff;
         }
 
-        .footer {
-            text-align: center;
-            color: #8b949e;
-            font-size: 0.85rem;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #30363d;
+        .dollar {
+            color: #ffb454;
         }
 
-        @media (max-width: 768px) {
-            .title { font-size: 2rem; }
-            .nav-grid { grid-template-columns: 1fr; }
+        .command {
+            color: #95e6cb;
+        }
+
+        .output-text {
+            color: #b3b1ad;
+        }
+
+        .error {
+            color: #ff3333;
+        }
+
+        .success {
+            color: #c2d94c;
+        }
+
+        .link {
+            color: #59c2ff;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        #input-line {
+            display: flex;
+            align-items: baseline;
+        }
+
+        #user-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #95e6cb;
+            font-family: inherit;
+            font-size: inherit;
+            caret-color: #00ff41;
+            padding: 0;
+            margin-left: 8px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 18px;
+            background: #00ff41;
+            animation: blink 1s infinite;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+
+        .ascii-art {
+            color: #00ff41;
+            font-size: 12px;
+            line-height: 1.2;
+            margin: 20px 0;
+        }
+
+        .help-table {
+            margin: 10px 0;
+            color: #b3b1ad;
+        }
+
+        .help-cmd {
+            color: #c2d94c;
+            display: inline-block;
+            min-width: 120px;
+        }
+
+        .autocomplete {
+            position: absolute;
+            background: #1a1f29;
+            border: 1px solid #39bae6;
+            padding: 5px 10px;
+            color: #59c2ff;
+            font-size: 14px;
+            display: none;
+            z-index: 100;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">⚡</div>
-            <h1 class="title">Rik@QZKJ:~$</h1>
-            <p class="subtitle">Linux / Embedded System / Geek Life</p>
-        </div>
-
-        <div class="nav-grid">
-            <a href="/blog/" class="nav-card">
-                <span class="nav-icon">📝</span>
-                <div class="nav-title">cd /blog/</div>
-                <div class="nav-desc">技术博客 · Linux & STM32 学习之路</div>
-            </a>
-
-            <a href="/lab/" class="nav-card">
-                <span class="nav-icon">🧪</span>
-                <div class="nav-title">/lab</div>
-                <div class="nav-desc">极客实验室 · 项目展示 & 工具集</div>
-            </a>
-
-            <a href="/about/" class="nav-card">
-                <span class="nav-icon">👨‍💻</span>
-                <div class="nav-title">/about</div>
-                <div class="nav-desc">关于我 · 简历 & 联系方式</div>
-            </a>
-        </div>
-
-        <div class="footer">
-            © 2026 Rik. All systems operational.
+    <div id="terminal">
+        <div id="output"></div>
+        <div id="input-line">
+            <span class="prompt">rik@qzkj</span><span class="path">:~</span><span class="dollar">$</span>
+            <input type="text" id="user-input" autofocus autocomplete="off" spellcheck="false">
         </div>
     </div>
+    <div id="autocomplete" class="autocomplete"></div>
+
+    <script>
+        const output = document.getElementById('output');
+        const input = document.getElementById('user-input');
+        const inputLine = document.getElementById('input-line');
+        const autocompleteEl = document.getElementById('autocomplete');
+
+        let commandHistory = [];
+        let historyIndex = -1;
+
+        const COMMANDS = {
+            'help': { desc: '显示帮助信息', action: showHelp },
+            'ls': { desc: '列出可用目录', action: listDirs },
+            'cd': { desc: 'cd <目录> - 进入目录', action: changeDir },
+            'about': { desc: '查看简历', action: () => navigate('/about/') },
+            'blog': { desc: '进入博客', action: () => navigate('/blog/') },
+            'lab': { desc: '进入实验室', action: () => navigate('/lab/') },
+            'clear': { desc: '清屏', action: clearScreen },
+            'whoami': { desc: '显示用户信息', action: whoami },
+            'neofetch': { desc: '显示系统信息', action: neofetch }
+        };
+
+        const DIRS = ['/blog', '/lab', '/about'];
+
+        function addLine(content, className = 'output-text') {
+            const line = document.createElement('div');
+            line.className = 'line ' + className;
+            line.innerHTML = content;
+            output.appendChild(line);
+            scrollToBottom();
+        }
+
+        function scrollToBottom() {
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        function showWelcome() {
+            const ascii = `
+    ____  _ __   _    ____  ____  __ ______
+   / __ \\(_) /__( )  / __ \\/_  / / //_/ / /
+  / /_/ / / //_|/  / /_/ / / /_/ ,< / / / 
+ / _, _/ / ,<     / ____/ /___/ /| / /_/ /  
+/_/ |_/_/_/|_|   /_/    /____/_/ |_\\____/   
+                                            
+<span class="success">Welcome to Rik's Workspace</span>
+<span style="color:#8b949e">Linux / Embedded System / Geek Life</span>
+
+输入 <span class="command">help</span> 查看可用命令
+输入 <span class="command">ls</span> 查看可用目录
+输入 <span class="command">cd /blog</span> 进入博客
+`;
+            addLine(ascii, 'ascii-art');
+        }
+
+        function showHelp() {
+            let help = '<div class="help-table">';
+            help += '<span class="success">可用命令：</span><br><br>';
+            for (const [cmd, info] of Object.entries(COMMANDS)) {
+                help += `<span class="help-cmd">${cmd}</span> - ${info.desc}<br>`;
+            }
+            help += '<br><span style="color:#8b949e">提示：使用 Tab 键自动补全命令</span>';
+            help += '</div>';
+            addLine(help);
+        }
+
+        function listDirs() {
+            let list = '<span class="success">可用目录：</span><br><br>';
+            DIRS.forEach(dir => {
+                const desc = dir === '/blog' ? '技术博客' : dir === '/lab' ? '实验室' : '个人简历';
+                list += `<span class="link" onclick="navigate('${dir}/')">${dir}/</span>  - ${desc}<br>`;
+            });
+            list += '<br><span style="color:#8b949e">使用 cd <目录> 进入</span>';
+            addLine(list);
+        }
+
+        function changeDir(args) {
+            if (!args || args.trim() === '') {
+                addLine('<span class="error">用法: cd &lt;目录&gt;</span>');
+                addLine('可用目录: ' + DIRS.join(', '));
+                return;
+            }
+            
+            let dir = args.trim();
+            if (!dir.startsWith('/')) dir = '/' + dir;
+            if (!dir.endsWith('/')) dir += '/';
+            
+            if (DIRS.includes(dir.replace(/\/$/, ''))) {
+                navigate(dir);
+            } else {
+                addLine(`<span class="error">bash: cd: ${dir}: 没有那个文件或目录</span>`);
+                addLine('可用目录: ' + DIRS.join(', '));
+            }
+        }
+
+        function navigate(url) {
+            addLine(`<span class="success">正在跳转到 ${url}...</span>`);
+            setTimeout(() => {
+                window.location.href = url;
+            }, 500);
+        }
+
+        function clearScreen() {
+            output.innerHTML = '';
+        }
+
+        function whoami() {
+            addLine('<span class="success">Rik</span>');
+            addLine('硬件测试工程师 / Linux 桌面用户 / 嵌入式爱好者');
+        }
+
+        function neofetch() {
+            const info = `
+<span class="success">rik</span>@<span class="success">qzkj.ltd</span>
+--------------------
+<span style="color:#59c2ff">OS:</span>        Debian GNU/Linux
+<span style="color:#59c2ff">Host:</span>      RackNerd VPS
+<span style="color:#59c2ff">Kernel:</span>    Linux 5.10
+<span style="color:#59c2ff">Shell:</span>     bash
+<span style="color:#59c2ff">Blog:</span>      Hexo + Butterfly
+<span style="color:#59c2ff">Skills:</span>    Linux, STM32, Nginx, CI/CD
+`;
+            addLine(info);
+        }
+
+        function processCommand(cmd) {
+            if (!cmd.trim()) return;
+
+            // 显示用户输入
+            addLine(`<span class="prompt">rik@qzkj</span><span class="path">:~</span><span class="dollar">$</span> <span class="command">${escapeHtml(cmd)}</span>`);
+
+            commandHistory.unshift(cmd);
+            historyIndex = -1;
+
+            const parts = cmd.trim().split(/\s+/);
+            const command = parts[0].toLowerCase();
+            const args = parts.slice(1).join(' ');
+
+            if (COMMANDS[command]) {
+                if (command === 'cd') {
+                    COMMANDS[command].action(args);
+                } else {
+                    COMMANDS[command].action();
+                }
+            } else {
+                addLine(`<span class="error">bash: ${escapeHtml(command)}: 未找到命令</span>`);
+                addLine('输入 <span class="command">help</span> 查看可用命令');
+            }
+        }
+
+        function escapeHtml(text) {
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        function autocomplete(partial) {
+            const matches = Object.keys(COMMANDS).filter(cmd => cmd.startsWith(partial));
+            
+            if (matches.length === 1) {
+                input.value = matches[0];
+                return true;
+            } else if (matches.length > 1) {
+                showAutocomplete(matches);
+                return false;
+            }
+            return false;
+        }
+
+        function showAutocomplete(matches) {
+            autocompleteEl.textContent = matches.join('  ');
+            autocompleteEl.style.display = 'block';
+            const rect = input.getBoundingClientRect();
+            autocompleteEl.style.left = rect.left + 'px';
+            autocompleteEl.style.top = (rect.bottom + 5) + 'px';
+        }
+
+        function hideAutocomplete() {
+            autocompleteEl.style.display = 'none';
+        }
+
+        // 事件监听
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                hideAutocomplete();
+                processCommand(input.value);
+                input.value = '';
+            } else if (e.key === 'Tab') {
+                e.preventDefault();
+                const partial = input.value.trim();
+                if (partial) {
+                    autocomplete(partial);
+                }
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                    input.value = commandHistory[historyIndex];
+                }
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    input.value = commandHistory[historyIndex];
+                } else if (historyIndex === 0) {
+                    historyIndex = -1;
+                    input.value = '';
+                }
+            } else {
+                hideAutocomplete();
+            }
+        });
+
+        // 点击任意处聚焦输入框
+        document.addEventListener('click', () => {
+            input.focus();
+        });
+
+        // 阻止右键菜单
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+
+        // 初始化
+        showWelcome();
+        input.focus();
+    </script>
 </body>
 </html>
