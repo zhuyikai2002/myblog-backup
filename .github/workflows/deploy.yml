@@ -62,7 +62,12 @@ jobs:
             public/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/myblog/public/
           
           # 部署主页到独立目录 /var/www/homepage/
-          rsync -avz -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+          # 确保目录存在
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
+            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "mkdir -p /var/www/homepage"
+          
+          # 部署主页文件
+          rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
             source/homepage/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/homepage/
           
           echo "Deployment to VPS completed successfully"

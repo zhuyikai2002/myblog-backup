@@ -18,7 +18,8 @@ nav:
   fixed: false
 
 menu:
-  Home: /blog/ || fas fa-home
+  Home: / || fas fa-home
+  Blog: /blog/ || fas fa-book
   About: /blog/about/ || fas fa-user
   Lab: /blog/lab/ || fas fa-flask
 
