@@ -62,12 +62,22 @@ jobs:
             public/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/myblog/public/
           
           # 部署主页到独立目录 /var/www/homepage/
-          # 确保目录存在
+          # 确保目录存在并设置权限
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
-            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "mkdir -p /var/www/homepage"
+            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
+            "mkdir -p /var/www/homepage && chown -R www-data:www-data /var/www/homepage"
           
-          # 部署主页文件
-          rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
-            source/homepage/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/homepage/
+          # 检查源文件是否存在
+          if [ -d "source/homepage" ] && [ -f "source/homepage/index.html" ]; then
+            echo "Found homepage files, deploying..."
+            rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+              source/homepage/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/homepage/
+            echo "Homepage deployed successfully"
+          else
+            echo "WARNING: source/homepage/index.html not found!"
+            echo "Current directory: $(pwd)"
+            echo "Listing source directory:"
+            ls -la source/ || echo "source/ directory not found"
+          fi
           
           echo "Deployment to VPS completed successfully"
