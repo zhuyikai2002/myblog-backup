@@ -6,16 +6,18 @@
   <title>关于我 - 简历</title>
   <style>
     :root {
-      --primary-color: #2c3e50;
-      --accent-color: #34495e;
-      --text-color: #222;
-      --bg-color: #f6f4ee; /* 更舒适的阅读背景 */
+      --primary-color: #00ff41;
+      --accent-color: #8b949e;
+      --text-color: #c9d1d9;
+      --bg-color: #0d1117; /* 深色背景，与主页风格一致 */
       --paper-width: 210mm;
       --paper-height: 297mm;
     }
 
     body {
-      background: var(--bg-color);
+      background-color: var(--bg-color);
+      background-image: radial-gradient(circle at 50% 50%, #1f2428 1px, transparent 1px);
+      background-size: 30px 30px;
       color: var(--text-color);
       font-family: "Microsoft YaHei", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       margin: 0;
@@ -39,6 +41,10 @@
       align-items: center;
     }
 
+    .topbar {
+      margin-bottom: 20px;
+    }
+
     .download-btn {
       display: inline-flex;
       align-items: center;
@@ -48,23 +54,49 @@
       text-decoration: none;
       font-weight: 700;
       font-size: 14px;
-      color: #fff;
-      background: #2c3e50;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      color: #000;
+      background: #00ff41;
+      border: 1px solid #00ff41;
+      box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
       -webkit-tap-highlight-color: transparent;
+      transition: all 0.3s ease;
     }
-    .download-btn:hover { filter: brightness(1.05); }
+    .download-btn:hover {
+      background: rgba(0, 255, 65, 0.1);
+      color: #00ff41;
+      box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+    }
     .download-btn:active { transform: translateY(1px); }
+
+    .edit-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      color: #00ff41;
+      background: transparent;
+      border: 1px solid #00ff41;
+      margin-left: 10px;
+      transition: all 0.3s ease;
+    }
+    .edit-link:hover {
+      background: rgba(0, 255, 65, 0.1);
+      box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+    }
 
     /* 简历主体（A4 纸张模拟） */
     .page {
       width: min(100%, var(--paper-width));
       max-width: var(--paper-width);
       min-height: var(--paper-height);
-      background: #fff;
+      background: #fff; /* 简历内容保持白色，打印友好 */
       border-radius: 12px;
-      box-shadow: 0 14px 40px rgba(0,0,0,0.12);
+      box-shadow: 0 0 30px rgba(0, 255, 65, 0.2);
+      border: 1px solid rgba(0, 255, 65, 0.3);
       padding: 40px 50px;
       box-sizing: border-box;
     }
@@ -82,7 +114,7 @@
     .name-role h1 {
       margin: 0;
       font-size: 28px;
-      color: var(--primary-color);
+      color: #2c3e50; /* 简历内文字保持深色 */
       line-height: 1.2;
     }
 
@@ -90,14 +122,14 @@
       margin: 5px 0 0;
       font-size: 16px;
       font-weight: normal;
-      color: var(--accent-color);
+      color: #34495e; /* 简历内文字保持深色 */
     }
 
     .contact-info {
       text-align: right;
       font-size: 14px;
       line-height: 1.6;
-      color: #333;
+      color: #333; /* 简历内文字保持深色 */
     }
 
     .section {
@@ -107,10 +139,10 @@
     .section-title {
       font-size: 16px;
       font-weight: bold;
-      color: var(--primary-color);
-      background: #eee;
+      color: #2c3e50; /* 简历内文字保持深色 */
+      background: #f0f0f0; /* 简历内背景保持浅色 */
       padding: 5px 10px;
-      border-left: 4px solid var(--primary-color);
+      border-left: 4px solid #2c3e50;
       margin-bottom: 12px;
       text-transform: uppercase;
     }
@@ -127,7 +159,7 @@
       gap: 10px;
     }
 
-    .item-title { font-size: 15px; }
+    .item-title { font-size: 15px; color: #2c3e50; }
     .item-date { font-size: 14px; color: #666; }
 
     ul {
@@ -139,7 +171,7 @@
       margin-bottom: 4px;
       font-size: 14px;
       line-height: 1.6;
-      color: #333;
+      color: #333; /* 简历内文字保持深色 */
     }
 
     /* 移动端适配 */
@@ -195,7 +227,8 @@
   <div class="container">
     <div class="topbar">
       <!-- 把你的 PDF 放到：source/files/resume.pdf  -> 生成后访问：/files/resume.pdf -->
-      <a class="download-btn" href="/files/resume.pdf" download>下载 PDF 简历</a>
+      <a class="download-btn" href="/blog/files/resume.pdf" download>📥 下载 PDF 简历</a>
+      <a class="edit-link" href="/blog/lab/resume/">✏️ 在线编辑</a>
     </div>
 
     <div class="page" id="resume">
