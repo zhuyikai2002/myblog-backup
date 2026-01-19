@@ -57,6 +57,12 @@ jobs:
       
       - name: Deploy to VPS
         run: |
+          # 部署 Hexo 博客到 /var/www/myblog/public/
           rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
             public/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/myblog/public/
+          
+          # 部署主页到独立目录 /var/www/homepage/
+          rsync -avz -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+            source/homepage/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/homepage/
+          
           echo "Deployment to VPS completed successfully"
