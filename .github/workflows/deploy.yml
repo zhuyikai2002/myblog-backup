@@ -58,5 +58,5 @@ jobs:
       - name: Deploy to VPS
         run: |
           rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
-            public/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/html/blog/
+            public/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/myblog/public/
           echo "Deployment to VPS completed successfully"

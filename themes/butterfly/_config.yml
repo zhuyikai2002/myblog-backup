@@ -18,9 +18,9 @@ nav:
   fixed: false
 
 menu:
-  Home: / || fas fa-home
-  About: /about/ || fas fa-user
-  Lab: /lab/ || fas fa-flask
+  Home: /blog/ || fas fa-home
+  About: /blog/about/ || fas fa-user
+  Lab: /blog/lab/ || fas fa-flask
 
 # --------------------------------------
 # Code Blocks Settings
