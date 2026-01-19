@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>朱义开 - 简历生成器</title>
+  <style>
+    :root {
+      --primary-color: #2c3e50; /* 默认深蓝 */
+      --accent-color: #34495e;
+      --text-color: #333;
+      --bg-color: #f4f4f4;
+      --paper-width: 210mm;
+      --paper-height: 297mm;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      font-family: "Microsoft YaHei", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      color: var(--text-color);
+    }
+
+    /* 返回首页按钮（左上角悬浮） */
+    .home-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.95);
+      color: #2c3e50;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .home-btn:hover { transform: translateY(-1px); }
+    .home-btn:active { transform: translateY(0); }
+
+    /* 控制面板样式 */
+    .controls {
+      position: fixed;
+      top: 70px; /* 给左上角“返回首页”留空间，避免遮挡 */
+      left: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      z-index: 1000;
+      width: 150px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .btn-print { background-color: #27ae60; color: white; }
+    .btn-print:hover { background-color: #219150; }
+
+    .btn-blue { background-color: #2980b9; color: white; }
+    .btn-green { background-color: #16a085; color: white; }
+    .btn-black { background-color: #2c3e50; color: white; }
+
+    /* A4 纸张模拟 */
+    .page {
+      width: min(100%, var(--paper-width)); /* 关键：手机不溢出 */
+      max-width: var(--paper-width);
+      min-height: var(--paper-height);
+      background: white;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      padding: 40px 50px;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    /* 简历内容样式 */
+    [contenteditable="true"]:focus {
+      outline: 2px dashed #3498db;
+      background-color: #f0f8ff;
+    }
+
+    header {
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    .name-role h1 {
+      margin: 0;
+      font-size: 28px;
+      color: var(--primary-color);
+      line-height: 1.2;
+    }
+
+    .name-role h2 {
+      margin: 5px 0 0;
+      font-size: 16px;
+      font-weight: normal;
+      color: var(--accent-color);
+    }
+
+    .contact-info {
+      text-align: right;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--primary-color);
+      background: #eee;
+      padding: 5px 10px;
+      border-left: 4px solid var(--primary-color);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .item {
+      margin-bottom: 12px;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      margin-bottom: 4px;
+      gap: 10px;
+    }
+
+    .item-title { font-size: 15px; }
+    .item-date { font-size: 14px; color: #666; }
+    .item-subtitle {
+      font-style: italic;
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 4px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    li {
+      margin-bottom: 4px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #444;
+    }
+
+    /* 技能标签样式 */
+    .skill-tag {
+      display: inline-block;
+      background: #f1f2f6;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 13px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      border: 1px solid #ddd;
+    }
+
+    /* 移动端适配 */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
+      .home-btn {
+        top: 10px;
+        left: 10px;
+        padding: 8px 10px;
+        font-size: 12px;
+        border-radius: 10px;
+      }
+
+      /* 控制面板改为底部工具条，避免遮挡内容 */
+      .controls {
+        top: auto;
+        left: 10px;
+        bottom: 10px;
+        width: calc(100vw - 20px);
+        padding: 10px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .controls hr,
+      .controls > div:first-child {
+        display: none;
+      }
+      .controls .btn {
+        width: auto;
+        margin: 0;
+        flex: 1;
+        padding: 10px 0;
+        font-size: 13px;
+      }
+
+      .page {
+        width: 100%;
+        min-height: auto;
+        padding: 20px 16px;
+        box-shadow: 0 0 12px rgba(0,0,0,0.08);
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .contact-info {
+        text-align: left;
+      }
+
+      .item-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .item-date {
+        color: #666;
+      }
+    }
+
+    /* 打印适配 - 关键！ */
+    @media print {
+      body { background: white; padding: 0; }
+      .home-btn { display: none; }
+      .controls { display: none; }
+      .page {
+        box-shadow: none;
+        margin: 0;
+        width: 100%;
+        padding: 20px 40px; /* 打印时调整边距 */
+      }
+      [contenteditable="true"]:focus { outline: none; background: none; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="home-btn" href="/" onclick="return goHome(event)">← 返回首页</a>
+
+<div class="controls">
+  <div style="text-align:center; margin-bottom:10px; font-size:12px; color:#666;">点击文字即可修改</div>
+  <button class="btn btn-print" onclick="window.print()">🖨️ 导出 PDF</button>
+  <hr style="border:0; border-top:1px solid #ddd; margin:10px 0;">
+  <button class="btn btn-black" onclick="setTheme('#2c3e50')">商务黑</button>
+  <button class="btn btn-blue" onclick="setTheme('#2980b9')">科技蓝</button>
+  <button class="btn btn-green" onclick="setTheme('#27ae60')">极客绿</button>
+</div>
+
+<div class="page" id="resume">
+
+  <header>
+    <div class="name-role" contenteditable="true">
+      <h1>朱义开</h1>
+      <h2>求职意向：软件实施顾问 / 桌面运维 / 技术支持 / 售后工程师</h2>
+    </div>
+    <div class="contact-info" contenteditable="true">
+      <div>📞 17730150471</div>
+      <div>✉️ zhuyikai2002@163.com</div>
+      <div>📍 上海 (可迁往其他城市)</div>
+      <div>GitHub / Blog: (此处可填链接)</div>
+    </div>
+  </header>
+
+  <div class="section">
+    <div class="section-title">🟢 个人优势 (Summary)</div>
+    <div contenteditable="true">
+      <ul>
+        <li><b>复合背景：</b> 拥有“会计专业”逻辑与“硬件测试”实操经验，既能理解业务需求，又能动手解决软硬件故障。</li>
+        <li><b>技术探索者：</b> <b>Linux 桌面 (Mint/Arch) 用户</b>，具备基础的服务器维护意识；擅长利用 AI 工具与脚本优化工作流。</li>
+        <li><b>CI/CD 实践：</b> 在个人博客项目中通过 <b>GitHub Actions</b> 实现了代码自动化部署，理解持续集成/持续部署的基本思想。</li>
+        <li><b>动手能力强：</b> 擅长利用排除法和搜索引擎解决计算机软硬件问题，具备良好的抗压能力和问题解决思维。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🛠️ 技能清单 (Skills)</div>
+    <div contenteditable="true">
+      <div class="item">
+        <b>运维与服务器：</b>
+        Linux (Arch/Mint), Shell 脚本基础, Nginx 配置, SSH, Git, GitHub Actions, VPS 管理
+      </div>
+      <div class="item">
+        <b>系统与硬件：</b>
+        Windows PE 急救, 磁盘分区/数据恢复, UEFI/MBR 引导修复, 硬件压力测试 (3DMark/PCMark), 蓝屏故障分析
+      </div>
+      <div class="item">
+        <b>通用技能：</b>
+        Office Excel (VLOOKUP/透视表), SQL 基础查询, Markdown 文档编写, 计算机组装与维修
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🚀 项目经历 (Projects)</div>
+
+    <div class="item">
+      <div class="item-header" contenteditable="true">
+        <span class="item-title">项目一：个人技术博客搭建与自动化部署优化</span>
+        <span class="item-date">独立负责人 | 自学项目</span>
+      </div>
+      <div contenteditable="true">
+        <ul>
+          <li><b>服务器搭建：</b> 购买并配置 VPS，安装 Linux (Debian) 与 Nginx Web 服务器，独立完成域名解析、SSL 证书配置及防火墙设置。</li>
+          <li><b>部署流程优化 (CI/CD)：</b>
+            <ul>
+              <li>早期使用 FTP 手动上传，效率低下；后利用 AI 辅助编写 Shell 脚本。</li>
+              <li>最终配置 <b>GitHub Actions</b> 工作流，实现“代码提交即自动部署”，将更新耗时从 10分钟缩短至 30秒。</li>
+            </ul>
+          </li>
+          <li><b>成果：</b> 沉淀了《Linux 常用指令实战》、《STM32 开发环境配置》等多篇技术文档，网站保持 24小时稳定运行。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-header" contenteditable="true">
+        <span class="item-title">项目二：PC 整机及组件兼容性验证项目</span>
+        <span class="item-date">主要执行者</span>
+      </div>
+      <div contenteditable="true">
+        <ul>
+          <li><b>环境部署：</b> 快速批量部署测试机系统，配置多版本显卡驱动及运行库，模拟真实用户高负载场景。</li>
+          <li><b>故障定位：</b> 执行 72小时老化测试 (Burn-in)，通过分析 Windows 事件日志 (Event Log) 与蓝屏代码，区分硬件故障与软件冲突。</li>
+          <li><b>成果：</b> 协助团队发现并复现了 15+ 个关键硬件兼容性问题（如特定驱动下的闪屏），有效降低了量产风险。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">💼 工作经历 (Experience)</div>
+    <div class="item">
+      <div class="item-header" contenteditable="true">
+        <span class="item-title">璞擎电子(上海)有限公司 | 硬件测试工程师</span>
+        <span class="item-date">2024.12 – 至今</span>
+      </div>
+      <div contenteditable="true">
+        <ul>
+          <li><b>硬件翻新与测试：</b> 负责回收旧机的硬件检测，筛选可用主板/显卡；独立完成整机拆解、重组与系统批量安装。</li>
+          <li><b>故障诊断：</b> 解决组装过程中的点不亮、死机、异响等问题，准确率达 95% 以上。</li>
+          <li><b>标准执行：</b> 阅读英文技术规格书，严格执行电源管理 (ACPI S3/S4/S5) 及兼容性测试标准。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🎓 教育背景 (Education)</div>
+    <div class="item">
+      <div class="item-header" contenteditable="true">
+        <span class="item-title">民政职业大学 | 大数据与会计</span>
+        <span class="item-date">2022.09 – 2025.07</span>
+      </div>
+      <div contenteditable="true">
+        <ul>
+          <li>核心课程：基础会计学、财务管理、计算机应用基础、Access 数据库。</li>
+          <li>专业优势：具备“财务逻辑 + IT技术”复合背景，能听懂业务语言，适合实施/支持类岗位。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // 左上角返回：优先返回上一页；没有历史时回到站点首页
+  function goHome(e) {
+    if (e) e.preventDefault();
+    if (window.history.length > 1) {
+      window.history.back();
+      return false;
+    }
+    window.location.href = '/';
+    return false;
+  }
+
+  // 简单的换肤功能
+  function setTheme(color) {
+    document.documentElement.style.setProperty('--primary-color', color);
+    // 根据主色调调整副色调
+    document.documentElement.style.setProperty('--accent-color', adjustColor(color, 20));
+  }
+
+  // 一个简单的变亮/变暗颜色算法（只是为了模拟一下逻辑）
+  function adjustColor(color, amount) {
+    return color;
+  }
+
+  // 防止粘贴时带入奇怪的格式
+  document.addEventListener('paste', function (e) {
+    e.preventDefault();
+    var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+    document.execCommand('insertText', false, text);
+  });
+</script>
+</body>
+</html>
+
