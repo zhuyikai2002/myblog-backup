@@ -19,10 +19,9 @@ nav:
 
 menu:
   Home: / || fas fa-home
-  Lab 实验室: /lab/ || fas fa-flask
-  # List||fas fa-list:
-  #   Music: /music/ || fas fa-music
-  #   Movie: /movies/ || fas fa-video
+  Blog: /blog/ || fas fa-book
+  About: /blog/about/ || fas fa-user
+  Lab: /blog/lab/ || fas fa-flask
 
 # --------------------------------------
 # Code Blocks Settings
