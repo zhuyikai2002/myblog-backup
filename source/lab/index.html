@@ -148,6 +148,55 @@
             background: #00ff41;
             opacity: 0.5;
         }
+
+        /* 分类标题 */
+        .category-title {
+            font-size: 1.3rem;
+            color: #00ff41;
+            margin: 40px 0 20px;
+            padding-left: 10px;
+            border-left: 4px solid #00ff41;
+            text-shadow: 0 0 8px rgba(0, 255, 65, 0.5);
+        }
+
+        .category-title:first-child {
+            margin-top: 0;
+        }
+
+        /* 状态徽章 */
+        .status-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .status-completed {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 1px solid #22c55e;
+        }
+
+        .status-progress {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            border: 1px solid #fbbf24;
+        }
+
+        .status-new {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid #ef4444;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
     </style>
 </head>
 <body>
@@ -159,52 +208,53 @@
             <p class="description">
                 这里是我的数字车间，存放着未完成的代码、正在跑的波形和不灭的极客精神。
             </p>
-            <div style="margin-top: 20px;">
-                <a href="/blog/lab/resume/" style="display: inline-block; padding: 12px 24px; border: 2px solid #00ff41; color: #00ff41; text-decoration: none; border-radius: 6px; font-weight: bold; transition: all 0.3s ease;">
-                    💼 简历编辑器 → 在线编辑简历，实时预览
-                </a>
-            </div>
         </header>
 
+        <!-- 🛠️ 工具类 -->
+        <div class="category-title">🛠️ 工具类</div>
         <div class="grid">
-            
-            <!-- 工具类 -->
             <a href="/blog/lab/resume/" class="card">
-                <h3>[TOOL] 简历编辑器</h3>
+                <h3>简历编辑器 <span class="status-badge status-completed">可用</span></h3>
                 <p><strong>功能：</strong>在线编辑简历，支持实时预览、主题切换和 PDF 导出。</p>
                 <p><strong>技术：</strong>纯前端 HTML + CSS + JavaScript，contenteditable 实现。</p>
                 <span class="tag">>> 进入编辑器</span>
             </a>
+        </div>
 
-            <!-- 最新项目 2026.01.20 -->
+        <!-- 🚀 最新项目 -->
+        <div class="category-title">🚀 最新项目</div>
+        <div class="grid">
             <a href="https://github.com/zhuyikai2002/MyPythonMoniter" target="_blank" class="card">
-                <h3>[NEW] 博客更新哨兵 🔥</h3>
+                <h3>博客更新哨兵 <span class="status-badge status-new">NEW</span></h3>
                 <p><strong>功能：</strong>免服务器监控博客更新，微信实时推送。从 C 转战 Python 的里程碑之作。</p>
                 <p><strong>技术：</strong>Python + GitHub Actions + cloudscraper + Server酱 微信推送。</p>
                 <span class="tag">>> View Source Code · 2026.01.20</span>
             </a>
+        </div>
 
+        <!-- 📦 进行中/已完成项目 -->
+        <div class="category-title">📦 项目合集</div>
+        <div class="grid">
             <a href="https://github.com/zhuyikai2002/stm32-register-driver" target="_blank" class="card">
-                <h3>[PROJECT] STM32 纯寄存器驱动</h3>
+                <h3>STM32 纯寄存器驱动 <span class="status-badge status-progress">进行中</span></h3>
                 <p><strong>目标：</strong>摆脱 HAL 库，深入理解 ARM 架构与外设寄存器。</p>
                 <p><strong>进度：</strong>已完成 GPIO、UART 中断通信，正在学习 NVIC 中断优先级。</p>
                 <span class="tag">>> View Source Code</span>
             </a>
 
             <a href="/blog/2026/01/02/2026-01-02-从7GB到30MB：我在Linux上手动搓了一个及其优雅的网络服务/" class="card">
-                <h3>[PROJECT] Linux 软路由优化</h3>
+                <h3>Linux 软路由优化 <span class="status-badge status-completed">已完成</span></h3>
                 <p><strong>成果：</strong>将内存占用从 7GB 压到 30MB，实现极致优化。</p>
                 <p><strong>工具：</strong>Mihomo (Clash Meta) + Tun 模式 + Systemd 服务管理。</p>
                 <span class="tag">>> 查看文章</span>
             </a>
 
             <a href="/blog/" class="card">
-                <h3>[PROJECT] 博客自动流水线</h3>
+                <h3>博客自动流水线 <span class="status-badge status-completed">已上线</span></h3>
                 <p><strong>状态：</strong>✅ 已上线，GitHub Actions + VPS 自动部署。</p>
                 <p><strong>技术栈：</strong>Hexo + Butterfly 主题 + Nginx + Let's Encrypt SSL。</p>
                 <span class="tag">>> 查看博客</span>
             </a>
-
         </div>
 
         <div class="quote">
