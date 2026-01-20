@@ -169,17 +169,47 @@
             'git': { desc: 'git status - 显示最新文章', action: gitStatus },
             'clear': { desc: '清屏', action: clearScreen },
             'whoami': { desc: '显示用户信息', action: whoami },
-            'neofetch': { desc: '显示系统信息', action: neofetch }
+            'neofetch': { desc: '显示系统信息', action: neofetch },
+            // 命令别名
+            'b': { desc: '别名：blog', action: () => navigate('/blog/') },
+            'l': { desc: '别名：lab', action: () => navigate('/lab/') },
+            'a': { desc: '别名：about', action: () => navigate('/about/') },
+            'c': { desc: '别名：contact', action: showContact },
+            '..': { desc: '返回上一页', action: () => window.history.back() },
+            'exit': { desc: '退出到关于页', action: () => navigate('/about/') },
+            'home': { desc: '刷新主页', action: () => location.reload() }
         };
 
         const DIRS = ['/blog', '/lab', '/about'];
 
-        function addLine(content, className = 'output-text') {
+        function addLine(content, className = 'output-text', useTyping = true) {
             const line = document.createElement('div');
             line.className = 'line ' + className;
-            line.innerHTML = content;
-            output.appendChild(line);
-            scrollToBottom();
+            
+            if (useTyping && className !== 'ascii-art') {
+                // 打字机效果
+                let i = 0;
+                const text = content;
+                line.innerHTML = '';
+                output.appendChild(line);
+                
+                const typing = setInterval(() => {
+                    if (i < text.length) {
+                        // 逐字符添加（处理 HTML 标签）
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = text.substring(0, i + 1);
+                        line.innerHTML = tempDiv.innerHTML;
+                        i++;
+                        scrollToBottom();
+                    } else {
+                        clearInterval(typing);
+                    }
+                }, 10); // 打字速度：10ms/字符
+            } else {
+                line.innerHTML = content;
+                output.appendChild(line);
+                scrollToBottom();
+            }
         }
 
         function scrollToBottom() {
@@ -200,8 +230,9 @@
 输入 <span class="command">help</span> 查看可用命令
 输入 <span class="command">ls</span> 查看可用目录
 输入 <span class="command">cd /blog</span> 进入博客
+<span style="color:#8b949e">💡 提示：试试快捷命令 <span class="command">b</span> (blog), <span class="command">l</span> (lab), <span class="command">a</span> (about)</span>
 `;
-            addLine(ascii, 'ascii-art');
+            addLine(ascii, 'ascii-art', false);
         }
 
         function showHelp() {
