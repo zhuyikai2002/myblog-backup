@@ -427,6 +427,82 @@
     var text = (e.originalEvent || e).clipboardData.getData('text/plain');
     document.execCommand('insertText', false, text);
   });
+
+  // ===== 草稿自动保存功能 =====
+  const AUTOSAVE_KEY = 'resume-draft-autosave';
+  const AUTOSAVE_INTERVAL = 3000; // 3秒自动保存一次
+  let saveTimer = null;
+  let lastSavedContent = '';
+
+  // 获取简历内容
+  function getResumeContent() {
+    const resume = document.getElementById('resume');
+    return resume ? resume.innerHTML : '';
+  }
+
+  // 保存草稿
+  function saveDraft() {
+    const content = getResumeContent();
+    if (content && content !== lastSavedContent) {
+      try {
+        localStorage.setItem(AUTOSAVE_KEY, content);
+        localStorage.setItem(AUTOSAVE_KEY + '-time', new Date().toISOString());
+        lastSavedContent = content;
+        console.log('✅ 草稿已自动保存', new Date().toLocaleTimeString());
+      } catch (e) {
+        console.warn('⚠️ 草稿保存失败:', e);
+      }
+    }
+  }
+
+  // 恢复草稿
+  function restoreDraft() {
+    try {
+      const savedContent = localStorage.getItem(AUTOSAVE_KEY);
+      const savedTime = localStorage.getItem(AUTOSAVE_KEY + '-time');
+      
+      if (savedContent && savedTime) {
+        const timeStr = new Date(savedTime).toLocaleString('zh-CN');
+        const confirmed = confirm(`检测到草稿（保存于 ${timeStr}），是否恢复？\n\n点击"确定"恢复草稿\n点击"取消"清空草稿`);
+        
+        if (confirmed) {
+          const resume = document.getElementById('resume');
+          if (resume) {
+            resume.innerHTML = savedContent;
+            console.log('✅ 草稿已恢复');
+          }
+        } else {
+          localStorage.removeItem(AUTOSAVE_KEY);
+          localStorage.removeItem(AUTOSAVE_KEY + '-time');
+          console.log('🗑️ 草稿已清空');
+        }
+      }
+    } catch (e) {
+      console.warn('⚠️ 草稿恢复失败:', e);
+    }
+  }
+
+  // 监听所有可编辑区域的输入事件
+  function initAutosave() {
+    const editableElements = document.querySelectorAll('[contenteditable="true"]');
+    
+    editableElements.forEach(el => {
+      el.addEventListener('input', () => {
+        // 防抖：输入停止 3 秒后保存
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(saveDraft, AUTOSAVE_INTERVAL);
+      });
+    });
+
+    // 页面卸载前保存
+    window.addEventListener('beforeunload', saveDraft);
+  }
+
+  // 页面加载时初始化
+  document.addEventListener('DOMContentLoaded', function() {
+    restoreDraft();
+    initAutosave();
+  });
 </script>
 </body>
 </html>
