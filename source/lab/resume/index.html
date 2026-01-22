@@ -81,6 +81,29 @@
     .btn-blue { background-color: #2980b9; color: white; }
     .btn-green { background-color: #16a085; color: white; }
     .btn-black { background-color: #2c3e50; color: white; }
+    
+    .btn-danger { background-color: #e74c3c; color: white; }
+    .btn-danger:hover { background-color: #c0392b; }
+    
+    .btn-secondary { background-color: #95a5a6; color: white; }
+    .btn-secondary:hover { background-color: #7f8c8d; }
+
+    /* 草稿状态提示 */
+    .draft-status {
+      margin-top: 15px;
+      padding: 10px;
+      background: rgba(0, 255, 65, 0.05);
+      border: 1px solid rgba(0, 255, 65, 0.2);
+      border-radius: 4px;
+      font-size: 12px;
+      color: #27ae60;
+    }
+
+    .draft-time {
+      color: #7f8c8d;
+      font-size: 11px;
+      margin-top: 3px;
+    }
 
     /* A4 纸张模拟 */
     .page {
@@ -278,6 +301,14 @@
   <button class="btn btn-black" onclick="setTheme('#2c3e50')">商务黑</button>
   <button class="btn btn-blue" onclick="setTheme('#2980b9')">科技蓝</button>
   <button class="btn btn-green" onclick="setTheme('#27ae60')">极客绿</button>
+  <hr style="border:0; border-top:1px solid #ddd; margin:10px 0;">
+  <button class="btn btn-secondary btn-small" onclick="restoreDefault()">🔄 恢复默认</button>
+  <button class="btn btn-danger btn-small" onclick="clearDraft()">🗑️ 清空草稿</button>
+  
+  <div class="draft-status" id="draft-status">
+    <div id="draft-message">💾 草稿自动保存中...</div>
+    <div class="draft-time" id="draft-time"></div>
+  </div>
 </div>
 
 <div class="page" id="resume">
@@ -287,12 +318,13 @@
       <h1>朱义开</h1>
       <h2>求职意向：软件实施顾问 / 桌面运维 / 技术支持 / 售后工程师</h2>
     </div>
-    <div class="contact-info" contenteditable="true">
-      <div>📞 17730150471</div>
-      <div>✉️ zhuyikai2002@163.com</div>
-      <div>📍 上海 (可迁往其他城市)</div>
-      <div>GitHub / Blog: (此处可填链接)</div>
-    </div>
+      <div class="contact-info" contenteditable="true">
+        <div>📞 17730150471</div>
+        <div>✉️ zhuyikai2002@163.com</div>
+        <div>📍 上海 (可迁往其他城市)</div>
+        <div>🐙 GitHub: github.com/zhuyikai2002</div>
+        <div>📝 Blog: qzkj.ltd/blog</div>
+      </div>
   </header>
 
   <div class="section">
@@ -433,6 +465,7 @@
   const AUTOSAVE_INTERVAL = 3000; // 3秒自动保存一次
   let saveTimer = null;
   let lastSavedContent = '';
+  const ORIGINAL_CONTENT = document.getElementById('resume') ? document.getElementById('resume').innerHTML : '';
 
   // 获取简历内容
   function getResumeContent() {
@@ -440,17 +473,56 @@
     return resume ? resume.innerHTML : '';
   }
 
+  // 更新 UI 状态提示
+  function updateDraftUI(message, time) {
+    const msgEl = document.getElementById('draft-message');
+    const timeEl = document.getElementById('draft-time');
+    if (msgEl) msgEl.textContent = message || '💾 草稿自动保存中...';
+    if (timeEl && time) {
+      const now = new Date(time);
+      timeEl.textContent = '上次保存: ' + now.toLocaleTimeString('zh-CN');
+    }
+  }
+
   // 保存草稿
   function saveDraft() {
     const content = getResumeContent();
     if (content && content !== lastSavedContent) {
       try {
+        const now = new Date().toISOString();
         localStorage.setItem(AUTOSAVE_KEY, content);
-        localStorage.setItem(AUTOSAVE_KEY + '-time', new Date().toISOString());
+        localStorage.setItem(AUTOSAVE_KEY + '-time', now);
         lastSavedContent = content;
         console.log('✅ 草稿已自动保存', new Date().toLocaleTimeString());
+        updateDraftUI('✅ 已自动保存', now);
       } catch (e) {
         console.warn('⚠️ 草稿保存失败:', e);
+        updateDraftUI('⚠️ 保存失败');
+      }
+    }
+  }
+
+  // 清空草稿
+  function clearDraft() {
+    if (confirm('确定要清空草稿吗？此操作不可恢复。')) {
+      localStorage.removeItem(AUTOSAVE_KEY);
+      localStorage.removeItem(AUTOSAVE_KEY + '-time');
+      updateDraftUI('🗑️ 草稿已清空', null);
+      document.getElementById('draft-time').textContent = '';
+      alert('草稿已清空。刷新页面将恢复默认内容。');
+    }
+  }
+
+  // 恢复默认内容
+  function restoreDefault() {
+    if (confirm('确定要恢复默认内容吗？当前编辑将丢失。')) {
+      const resume = document.getElementById('resume');
+      if (resume && ORIGINAL_CONTENT) {
+        resume.innerHTML = ORIGINAL_CONTENT;
+        localStorage.removeItem(AUTOSAVE_KEY);
+        localStorage.removeItem(AUTOSAVE_KEY + '-time');
+        updateDraftUI('🔄 已恢复默认', null);
+        document.getElementById('draft-time').textContent = '';
       }
     }
   }
@@ -502,6 +574,15 @@
   document.addEventListener('DOMContentLoaded', function() {
     restoreDraft();
     initAutosave();
+    
+    // 显示上次保存时间（如果有）
+    const savedTime = localStorage.getItem(AUTOSAVE_KEY + '-time');
+    if (savedTime) {
+      updateDraftUI('✅ 已加载草稿', savedTime);
+    } else {
+      updateDraftUI('📝 等待编辑...', null);
+      document.getElementById('draft-time').textContent = '';
+    }
   });
 </script>
 </body>
