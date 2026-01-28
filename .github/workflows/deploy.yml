@@ -1,9 +1,10 @@
-name: Deploy to GitHub Pages
+name: Deploy Blog
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -27,19 +28,13 @@ jobs:
       - name: Configure timezone
         run: |
           sudo timedatectl set-timezone Asia/Shanghai
-          echo "Timezone set to: $(timedatectl | grep 'Time zone')"
       
       - name: Install dependencies
         run: npm install
       
-      - name: Build static files
+      # ===== 构建 VPS 版本 (root: /blog/) =====
+      - name: Build for VPS
         run: npm run build
-      
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
       
       - name: Setup SSH
         run: |
@@ -48,42 +43,52 @@ jobs:
           echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
-          echo "SSH key setup completed"
       
-      - name: Test SSH Connection
+      - name: Deploy Blog to VPS
         run: |
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -v \
-            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "echo 'SSH connection test successful'"
-      
-      - name: Deploy to VPS
-        run: |
-          # 部署 Hexo 博客到 /var/www/myblog/public/
           rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
             public/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/myblog/public/
-          
-          # 部署主页到独立目录 /var/www/homepage/
-          # 确保目录存在并设置权限
+          echo "✅ Blog deployed to VPS"
+      
+      - name: Deploy Homepage to VPS
+        run: |
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
             ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
             "mkdir -p /var/www/homepage"
           
-          # 检查源文件是否存在
-          if [ -d "source/homepage" ] && [ -f "source/homepage/index.html" ]; then
-            echo "Found homepage files, deploying..."
-            rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+          if [ -f "source/homepage/index.html" ]; then
+            rsync -avz -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
               source/homepage/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/homepage/
             
-            # 设置正确的权限
             ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
               ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
-              "chown -R www-data:www-data /var/www/homepage && chmod -R 644 /var/www/homepage && find /var/www/homepage -type d -exec chmod 755 {} \\;"
+              "chown -R www-data:www-data /var/www/homepage && chmod -R 755 /var/www/homepage"
             
-            echo "Homepage deployed successfully"
-          else
-            echo "WARNING: source/homepage/index.html not found!"
-            echo "Current directory: $(pwd)"
-            echo "Listing source directory:"
-            ls -la source/ || echo "source/ directory not found"
+            echo "✅ Homepage deployed to VPS"
           fi
+      
+      # ===== 构建 GitHub Pages 版本 (root: /myblog-backup/) =====
+      - name: Rebuild for GitHub Pages
+        run: |
+          # 修改 root 路径为 GitHub Pages
+          sed -i 's|root: /blog/|root: /myblog-backup/|g' _config.yml
+          sed -i 's|url: https://qzkj.ltd|url: https://zhuyikai2002.github.io|g' _config.yml
           
-          echo "Deployment to VPS completed successfully"
+          # 重新构建
+          npx hexo clean
+          npx hexo generate
+          echo "✅ Rebuilt for GitHub Pages"
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+      
+      - name: Summary
+        run: |
+          echo ""
+          echo "🎉 Deployment completed!"
+          echo "📝 VPS: https://qzkj.ltd/blog/"
+          echo "🏠 Homepage: https://qzkj.ltd"
+          echo "🔄 GitHub Pages: https://zhuyikai2002.github.io/myblog-backup/"
